@@ -3,302 +3,280 @@
     "#links":55,
     "links":[
         {
-            "source":"北京南",
-            "target":"天津",
+            "source":1,
+            "target":2,
             "weight":161
         },
         {
-            "source":"北京南",
-            "target":"上海",
+            "source":1,
+            "target":16,
             "weight":6
         },
         {
-            "source":"北京南",
-            "target":"上海虹桥",
+            "source":1,
+            "target":13,
             "weight":78
         },
         {
-            "source":"北京南",
-            "target":"福州",
+            "source":1,
+            "target":14,
             "weight":8
         },
         {
-            "source":"北京南",
-            "target":"合肥南",
+            "source":1,
+            "target":20,
             "weight":10
         },
         {
-            "source":"北京南",
-            "target":"哈尔滨西",
+            "source":1,
+            "target":12,
             "weight":18
         },
         {
-            "source":"天津",
-            "target":"长沙南",
+            "source":2,
+            "target":19,
             "weight":2
         },
         {
-            "source":"上海南",
-            "target":"金山卫",
+            "source":3,
+            "target":4,
             "weight":144
         },
         {
-            "source":"武汉",
-            "target":"成都东",
+            "source":5,
+            "target":6,
             "weight":2
         },
         {
-            "source":"武汉",
-            "target":"重庆北",
+            "source":5,
+            "target":17,
             "weight":2
         },
         {
-            "source":"武汉",
-            "target":"上海虹桥",
+            "source":5,
+            "target":13,
             "weight":9
         },
         {
-            "source":"武汉",
-            "target":"福州",
+            "source":5,
+            "target":14,
             "weight":2
         },
         {
-            "source":"武汉",
-            "target":"深圳北",
+            "source":5,
+            "target":8,
             "weight":24
         },
         {
-            "source":"武汉",
-            "target":"北京西",
+            "source":5,
+            "target":18,
             "weight":19
         },
         {
-            "source":"武汉",
-            "target":"西安北",
+            "source":5,
+            "target":15,
             "weight":2
         },
         {
-            "source":"武汉",
-            "target":"广州南",
+            "source":5,
+            "target":11,
             "weight":51
         },
         {
-            "source":"武汉",
-            "target":"哈尔滨西",
+            "source":5,
+            "target":12,
             "weight":2
         },
         {
-            "source":"武汉",
-            "target":"贵阳北",
+            "source":5,
+            "target":7,
             "weight":4
         },
         {
-            "source":"成都东",
-            "target":"上海虹桥",
+            "source":6,
+            "target":13,
             "weight":6
         },
         {
-            "source":"成都东",
-            "target":"福州",
+            "source":6,
+            "target":14,
             "weight":2
         },
         {
-            "source":"成都东",
-            "target":"重庆北",
+            "source":6,
+            "target":17,
             "weight":62
         },
         {
-            "source":"成都东",
-            "target":"北京西",
+            "source":6,
+            "target":18,
             "weight":2
         },
         {
-            "source":"成都东",
-            "target":"广州南",
+            "source":6,
+            "target":11,
             "weight":4
         },
         {
-            "source":"贵阳北",
-            "target":"广州南",
+            "source":7,
+            "target":11,
             "weight":38
         },
         {
-            "source":"贵阳北",
-            "target":"北京西",
+            "source":7,
+            "target":18,
             "weight":6
         },
         {
-            "source":"贵阳北",
-            "target":"上海虹桥",
+            "source":7,
+            "target":13,
             "weight":14
         },
         {
-            "source":"贵阳北",
-            "target":"长沙南",
+            "source":7,
+            "target":19,
             "weight":8
         },
         {
-            "source":"贵阳北",
-            "target":"深圳北",
+            "source":7,
+            "target":8,
             "weight":2
         },
         {
-            "source":"深圳北",
-            "target":"北京西",
+            "source":8,
+            "target":18,
             "weight":12
         },
         {
-            "source":"深圳北",
-            "target":"上海虹桥",
+            "source":8,
+            "target":13,
             "weight":12
         },
         {
-            "source":"深圳北",
-            "target":"福州",
+            "source":8,
+            "target":14,
             "weight":2
         },
         {
-            "source":"深圳北",
-            "target":"西安北",
+            "source":8,
+            "target":15,
             "weight":6
         },
         {
-            "source":"深圳北",
-            "target":"重庆北",
+            "source":8,
+            "target":17,
             "weight":2
         },
         {
-            "source":"深圳北",
-            "target":"合肥南",
+            "source":8,
+            "target":20,
             "weight":2
         },
         {
-            "source":"深圳北",
-            "target":"长沙南",
+            "source":8,
+            "target":19,
             "weight":22
         },
         {
-            "source":"深圳北",
-            "target":"广州南",
+            "source":8,
+            "target":11,
             "weight":50
         },
         {
-            "source":"深圳",
-            "target":"广州东",
+            "source":9,
+            "target":10,
             "weight":135
         },
         {
-            "source":"广州南",
-            "target":"北京西",
+            "source":11,
+            "target":18,
             "weight":10
         },
         {
-            "source":"广州南",
-            "target":"上海虹桥",
+            "source":11,
+            "target":13,
             "weight":16
         },
         {
-            "source":"广州南",
-            "target":"西安北",
+            "source":11,
+            "target":15,
             "weight":10
         },
         {
-            "source":"广州南",
-            "target":"合肥南",
+            "source":11,
+            "target":20,
             "weight":2
         },
         {
-            "source":"广州南",
-            "target":"长沙南",
+            "source":11,
+            "target":19,
             "weight":18
         },
         {
-            "source":"哈尔滨西",
-            "target":"上海虹桥",
+            "source":12,
+            "target":13,
             "weight":2
         },
         {
-            "source":"上海虹桥",
-            "target":"重庆北",
+            "source":13,
+            "target":17,
             "weight":4
         },
         {
-            "source":"上海虹桥",
-            "target":"福州",
+            "source":13,
+            "target":14,
             "weight":12
         },
         {
-            "source":"上海虹桥",
-            "target":"合肥南",
+            "source":13,
+            "target":20,
             "weight":9
         },
         {
-            "source":"上海虹桥",
-            "target":"长沙南",
+            "source":13,
+            "target":19,
             "weight":29
         },
         {
-            "source":"福州",
-            "target":"重庆北",
+            "source":14,
+            "target":17,
             "weight":2
         },
         {
-            "source":"福州",
-            "target":"长沙南",
+            "source":14,
+            "target":19,
             "weight":2
         },
         {
-            "source":"福州",
-            "target":"合肥南",
+            "source":14,
+            "target":20,
             "weight":2
         },
         {
-            "source":"西安北",
-            "target":"上海",
+            "source":15,
+            "target":16,
             "weight":4
         },
         {
-            "source":"西安北",
-            "target":"北京西",
+            "source":15,
+            "target":18,
             "weight":26
         },
         {
-            "source":"上海",
-            "target":"合肥南",
+            "source":16,
+            "target":20,
             "weight":21
         },
         {
-            "source":"重庆北",
-            "target":"北京西",
+            "source":17,
+            "target":18,
             "weight":2
         },
         {
-            "source":"北京西",
-            "target":"长沙南",
+            "source":18,
+            "target":19,
             "weight":8
         }
-    ],
-    "node_list":[
-        "北京南",
-        "天津",
-        "上海南",
-        "金山卫",
-        "武汉",
-        "成都东",
-        "贵阳北",
-        "深圳北",
-        "深圳",
-        "广州东",
-        "广州南",
-        "哈尔滨西",
-        "上海虹桥",
-        "福州",
-        "西安北",
-        "上海",
-        "重庆北",
-        "北京西",
-        "长沙南",
-        "合肥南"
     ],
     "#nodesorigin":0,
     "#edgesorigin":0
