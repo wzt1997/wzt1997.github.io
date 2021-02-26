@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Train Network</title>
+    <link rel="stylesheet" href="css/d3tip.css">
+    <script src="js/d3.min.js"></script>
+    <script src="js/library/d3-tip.js"></script>
+  </head>
+  <body>
+    <svg width="1600" height="900" id="mainsvg" class="svgs"></svg>
+    <script>
+    let svg = d3.select('#mainsvg');
+    var width = svg.attr('width'), height = svg.attr('height');
+    const margin = {top: 100, right: 120, bottom: 100, left: 120};
+    const inner_width = width - margin.left - margin.right;
+    const inner_height = height - margin.top - margin.bottom;
+    let nodes, links;
+    let circles, lines;
+    let color;
+    let simulation;
+    let city_mapping;
+    let city_size, min_city_weight, max_city_weight; 
+    let links_weights, min_link_weight, max_link_weight;
+
+        
+    const tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .html(function(d) { return city_mapping[d.index] + " station" });
+    svg.call(tip);
+
+    function dragstarted(d) {
+        if(!d3.event.active){
+            simulation.alphaTarget(0.007).restart();
+        }
+
+        d3.select(this)
+        .raise()
+        .attr("stroke", "black")
+        .attr("stroke-width", 3)
+        .attr("cx", d.x)
+        .attr("cy", d.y);
+        //simulation.stop();
+    }
+    function dragged(d) {
+        d3.select(this)
+        .attr("cx", d.x = d3.event.x)
+        .attr("cy", d.y = d3.event.y);
+        ticked();
+    }
+    function dragended(d) {
+        if(!d3.event.active){
+            simulation.alphaTarget(0);
+        }
+        d3.select(this)
+        .attr("stroke", null)
+        .attr("cx", null)
+        .attr("cy", null);
+        // simulation.restart();
+        // circles
+        // .transition()
+        // .duration(500)
+        // .attr('cx', d => d.x)
+        // .attr('cy', d => d.y)
+    }
+
+    // update postion
+    function ticked() { 
+        lines
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+        circles
+        .attr('cx', d => d.x)
+        .attr('cy', d => d.y);
+    }
+
+    const drag = d3.drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended);
+
+    const render_init = function(){ //initialization
+        // mapping the weights of stations to the radius of the circles
+        const city_weight_scale = d3.scaleLinear()
+        .domain([min_city_weight, max_city_weight])
+        .range([8, 50]);
+
+        const link_weight_scale = d3.scaleLinear()
+        .domain([min_link_weight, max_link_weight])
+        .range([1, 10]);
+
+        lines = svg.selectAll('line').data(links)
+        .enter().append('line')
+        .attr('stroke', 'black')
+        .attr('opacity', 0.7)
+        //.attr('stroke-width', 1.2);
+        .attr('stroke-width', (d)=>{
+            return link_weight_scale(links_weights[d.source +'-'+d.target]);
+        });
+
+        circles = svg.selectAll('circle').data(nodes)
+        .enter().append('circle')
+        //.attr('r', d => city_size[d.index] / 2.5)
+        .attr('r', d => city_weight_scale( city_size[ d.index ] ))
+        .attr('fill', d => color( d.index))
+        .attr("stroke", 'black')
+        .attr('stroke-width', 2)
+        .call(drag);
+
+        circles.append("text")
+        .data(nodes)
+        .attr("x", 10)
+        .attr("y", 10)
+        .attr("dy", ".5em")
+        .attr("fill", "black")
+        .style("text-anchor", "start")
+        .text( d => city_mapping[ d.index ])
+
+        circles
+        .on('mouseover', function(d){
+            d3.select(this)
+            .attr("opacity", 0.8)
+            .attr("stroke","black")
+            .attr("stroke-width", 4);
+            tip.show(d);
+        })
+        .on('mouseout', function(d){
+            d3.select(this)
+            .attr("opacity", 1)
+            .attr("stroke","black")
+            .attr("stroke-width", 2);
+            tip.hide(d);
+        })
+
+        //draw legend
+        var legend = d3.select('#mainsvg').selectAll(".legend")
+                .data(city_mapping)
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function(d, i) { 
+                    return "translate(" + (inner_width - 180) + "," + (i * 25 + 100) + ")"; 
+                });
+        
+        // draw legend colored rectangles
+        legend.append("rect")
+            .data(city_mapping) 
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 30)
+            .attr("height", 20)
+            .style("fill", function (d,i) { 
+                return color(i);
+            });
+        
+        // draw legend text
+        legend.append("text")
+            .data(city_mapping) 
+            .attr('class', 'legend_text')
+            .attr("x", 40)
+            .attr("y", 9)
+            .attr("dy", ".5em")
+            .attr("fill", 'black')
+            .style("text-anchor", "start")
+            .text(function (d,i) {return d;}); 
+
+    }
+
+    // the data is from http://networkrepository.com/socfb-Caltech36.php; 
+    d3.json('./data/train_data_noweight.json').then(data => {
+        links = data.links;
+        city_mapping = data.node_list;
+        city_size = data.node_size;
+        links_weights = data.link_weights;
+        nodes = []
+
+        let arr = Object.values(links_weights);
+        min_link_weight = Math.min(...arr);
+        max_link_weight = Math.max(...arr);
+
+        min_city_weight = Math.min.apply( null, city_size );
+        max_city_weight = Math.max.apply( null, city_size );
+        console.log( `Min value: ${min_city_weight}, max value: ${max_city_weight}` );
+        
+        // create empty list
+        for(let i = 0; i < data['#nodes']; i++ ){
+            nodes.push({"index":i});
+        }
+        color = d3.scaleDiverging(d3.interpolateRdGy)
+        .domain([0, nodes.length])
+
+        render_init();
+
+        //force simulation
+        simulation = d3.forceSimulation(nodes)
+        .force('manyBody', d3.forceManyBody().strength(-125)) //name of force, 
+        .force('center', d3.forceCenter(inner_width / 2, inner_height / 2)) 
+        .force("link", d3.forceLink(links).strength(0.1).distance(350))
+        //.alphaTarget(0.01)
+        .on('tick', ticked); //tick时间对应ticked处理函数
+    })
+
+    </script>
+  </body>
+</html>
