@@ -149,7 +149,7 @@
 
         const link_weight_scale = d3.scaleLinear()
         .domain([min_link_weight, max_link_weight])
-        .range([1.2, 15]);
+        .range([1.2, 12]);
 
         svg_main.append("text")
         .attr("transform", "translate(" + (inner_width/2) + "," + 30 + ")")
@@ -311,7 +311,8 @@
         arcs
         .append("path")
         .attr("fill", d => pie_color( d.index ))
-        .attr("d", d => arc(d));
+        .attr("d", d => arc(d))
+        .style('cursor', 'pointer')
 
         arcs
         .append('text')
