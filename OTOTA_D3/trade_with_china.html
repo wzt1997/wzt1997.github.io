@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trade_with_China</title>
+    <link rel="stylesheet" href="css/themeriver.css"> 
+    <link rel="stylesheet" href="css/d3tip.css">
+    <script src="js/d3.min.js"></script>
+    <script src="js/barchart-in-themeriver.js"></script>
+    <script src="js/library/d3-tip.js"></script>
+  </head>
+  <body style="text-align: center">
+    <div style="display: flex; background-color: #f7f7f7;">  
+        <div id = "line_chart">
+            <svg width="400" height="900" id="line" class="svgs"></svg>
+        </div>
+        <div id = "trade_river">
+            <svg width="1200" height="900" id="river" class="svgs"></svg>
+        </div>
+    </div>
+    <!-- <svg width="1650" height="920" id="river" class="svgs" style=""></svg> -->
+    <script>
+        // get main SVG and its attributes & setting hyper-parameters; 
+        const svg = d3.select('#river');
+        const svg_line = d3.select('#line');
+        const width = +svg.attr('width');
+        const height = +svg.attr('height');
+        const line_svg_width = +svg_line.attr('width')
+        const line_svg_height = +svg_line.attr('height')
+
+        const margin = {top: 150, right: 120, bottom: 150, left: 120};
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+        const chart_width = innerWidth - 120, chart_height = innerHeight;
+        const line_chart_width = line_svg_width, line_chart_height = chart_height;
+
+        const xValue = (datum) => { return date_list.indexOf(datum['year']); };
+
+        let low_max = 0; 
+        let up_max = 0;
+        let xScale, yScale, nyScale;
+        let totalduration = 4000;
+
+        let pos_prestack = [];
+        let neg_prestack = [];
+        let pos_item_list = [];
+        let neg_item_list = [];
+        let date_list = [];
+        let pos_keys = [], neg_keys = [];
+        let pos_color, neg_color;
+
+        const xAxisLabel = 'Year';
+        const yAxisLabel = 'Trade Volume / Billion Dollar';
+
+        const main_tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .html(function(d) { 
+            console.log(d)
+            return d.key;
+        });
+        svg.call(main_tip);
+
+        const renderinit = function(){ 
+            // Linear Scale: Data Space -> Screen Space; 
+            xScale = d3.scaleLinear()
+            .domain([0, date_list.length-1])
+            .range([0, chart_width]);
+
+            // Introducing y-Scale; 
+            yScale = d3.scaleLinear()
+            .domain([0, up_max]) // "extent" is equivalent to [d3.min(data, xValue), d3.max(data, xValue)]; 
+            .range([chart_height/3, 0]) 
+            .nice();
+
+            nyScale = d3.scaleLinear()
+            .domain([low_max, 0])
+            .range([chart_height, chart_height/3])
+            .nice();
+
+            yAxisScale = d3.scaleLinear()
+            .domain([low_max, 0, up_max]) // "extent" is equivalent to [d3.min(data, xValue), d3.max(data, xValue)]; 
+            .range([chart_height, chart_height/3, 0]) // 2/3的部分给negative, 1/3的部分给positive
+            .nice();
+
+            // yBandScale = d3.scaleBand()
+            // .domain(barKeys_reverse)
+            // .range([innerHeight - innerHeight / 8, innerHeight])
+            // .padding(0.01);
+
+            // nyBandScale = d3.scaleBand()
+            // .domain(barKeys)
+            // .range([20, innerHeight / 8 + 20])
+            // .padding(0.01);
+
+            // xBarScale = d3.scaleLinear()
+            // .domain([0, 60000])
+            // .range([0, innerWidth / 3]);    
+
+            // The reason of using group is that nothing is rendered outside svg, so margin of svg is always blank while margin of group is rendered inside svg; 
+            const g = svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`)
+            .attr('id', 'axis')
+            
+            svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`)
+            .attr('id', 'pos_group');
+
+            svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`)
+            .attr('id', 'neg_group');
+
+            // Adding axes; 
+            var formatter = d3.format("0")
+            // create y axis
+            const yAxis = d3.axisLeft(yAxisScale)
+            .tickSize(-chart_width)
+            .tickFormat(function (d) { 
+                //if (d === 0) return 0; // No label for '0'
+                // else if (d < 0) d = -d; // No nagative labels
+                return formatter(d);
+            })
+            // .tickFormat(d3.format('.2s'))
+            .tickPadding(10); // .tickPadding is used to prevend intersection of ticks; 
+           
+            // create x axis
+            const xAxis = d3.axisBottom(xScale)
+            //.tickFormat(d3.format('.2s'))
+            .tickSize(-chart_height)
+            .tickPadding(10)
+            .ticks(date_list.length)
+            .tickFormat( d => String( d + 2002 ) )
+
+
+            let yAxisGroup = g
+            .append('g')
+            .call(yAxis)
+            .attr('id', 'yaxis')
+            //adjust the position of y axis texts
+            d3.selectAll('#yaxis .tick text')
+            .attr('transform', `translate(${0}, ${-2})`); 
+            //add the title of y axis
+            yAxisGroup.append('text')
+            .attr('transform', `rotate(-90)`)
+            .attr('x', -innerHeight / 2)
+            .attr('y', -50)
+            .attr('fill', 'black')
+            .text(yAxisLabel)
+            .attr('text-anchor', 'middle') // Make label at the middle of axis. 
+            yAxisGroup
+            .selectAll('.domain')
+            .remove(); // we can select multiple tags using comma to seperate them and we can use space to signify nesting; 
+            
+            let xAxisGroup = g.append('g')
+            .call(xAxis)
+            .attr('transform', `translate(${0}, ${chart_height})`)
+            .attr('id', 'xaxis');
+            d3
+            .selectAll('#xaxis .tick text')
+            .attr('transform', `translate(${0}, ${5})`);
+            xAxisGroup.append('text')
+            .attr('y', 50)
+            .attr('x', chart_width / 2)
+            .attr('fill', 'black')
+            .text(xAxisLabel);
+            xAxisGroup
+            .selectAll('.domain')
+            .remove();
+
+            // console.log(document.getElementById('xaxis'));
+            // myticks = date_list
+            // for(let tid = 0; tid < myticks.length; tid++){
+            //     // document.getElementById('xaxis').getElementsByClassName('tick')[tid].getElementsByTagName('text')[0].textContent = myticks[tid];
+            // }
+            
+            //var province_name = ["湖北", "广东", "河南", "浙江", "湖南", "安徽", "江西", "江苏", "重庆", "山东", "四川", "黑龙江", "北京", "上海", "河北", "福建", "广西", "陕西", "海南", "云南", "贵州", "山西", "天津", "辽宁", "甘肃", "吉林", "宁夏", "新疆", "内蒙古", "香港", "青海", "台湾", "澳门", "西藏"]
+            // draw legend
+
+            var legend = svg
+            .selectAll(".legend")
+                .data(pos_item_list)
+                .enter()
+                .append("g")
+                .attr("class", "legend")
+                .attr("transform", function(d, i) { return "translate(" + (chart_width + 130) + "," + (i * 25 + 140) + ")"; });
+			
+            // draw legend colored rectangles
+            legend.append("rect")
+            .data(pos_item_list) 
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 30)
+            .attr("height", 15)
+            .style("fill", function (d,i) {
+                return pos_color(i)
+            });
+
+            legend.append("rect")
+            .data(neg_item_list) 
+            .attr("x", 0)
+            .attr("y", pos_item_list.length * 25 + 30)
+            .attr("width", 30)
+            .attr("height", 15)
+            .style("fill", function (d,i) {
+                return neg_color(i)
+            });
+			
+			
+            // draw legend text
+            legend.append("text")
+            .data(pos_item_list)
+            .attr("class", "legend_text")
+            .attr("x", 40)
+            .attr("y", 9)
+            .attr("dy", ".2em")
+            .attr("fill", '#333333')
+            .style("text-anchor", "start")
+            .text(d => d);
+
+            // draw legend text
+            legend.append("text")
+            .data(neg_item_list)
+            .attr("class", "legend_text")
+            .attr("x", 40)
+            .attr("y", pos_item_list.length * 25 + 39)
+            .attr("dy", ".2em")
+            .attr("fill", '#333333')
+            .style("text-anchor", "start")
+            .text(d => d);
+        };
+        
+        const render = function(data, keys, area){
+
+            let g;
+            if( keys[0] == pos_keys[0]){
+                g = d3.select('#pos_group')
+            }
+            else{
+                console.log("neg")
+                g = d3.select('#neg_group')
+            }
+
+            let layers = d3.stack()
+            .keys(keys)
+            .offset(d3.stackOffsetNone) 
+            //.order(d3.stackOrderDescending)
+            .order(d3.stackOrderNone)
+            (data);
+
+            const clipedrect = g
+            .append("clipPath") // Warning: Never append new rect after groups or it shall conflict with barcharts; 
+            .attr("id", "rectClip")
+            .append("rect")
+            .attr('class', 'rect-clip')
+            .attr("width", 0)
+            .attr("height", chart_height);
+
+            const path_chart = g.selectAll("path")
+            .data(layers)
+            .join("path") // use join to avoid split according to "enter" and "update"; 
+            .attr("opacity",0.9)
+            //.transition().duration(3000)
+            .attr("d", function(d,i) {
+                console.log(d);
+                return area(d);
+            })
+            .attr("clip-path", "url(#rectClip)")
+            // fill attrbute requires designers to assign colors for each province; 
+            .attr("fill", function (d,i) {
+                console.log(d["key"]);
+                return keys[0] == pos_keys[0] ? pos_color(i) : neg_color(i); 
+            });
+
+            clipedrect
+            .transition()
+            .ease(d3.easeLinear)
+            .duration(totalduration)
+            .attr("width", chart_width);  
+            
+            path_chart
+            .on('mouseover', function(d){
+                d3.select(this)
+                .attr("opacity", 0.7)
+                .attr("stroke","black")
+                .attr("stroke-width", 2);
+                main_tip.show(d);
+            })
+            .on('mouseout', function(d){
+                d3.select(this)
+                .attr("opacity", 1)
+                .attr("stroke",null)
+                main_tip.hide(d);
+            })
+
+            console.log("clipdirect:", clipedrect)
+
+        };
+
+        const line_chart_update = function(){
+            //TODO: update line chart
+            const data = [[1, 224], [2, 528], [3, 756], [4, 632], [5, 582], [6, 704],
+            [7, 766], [8, 804], [9, 884], [10, 960], [11, 1095], [12, 1250]];
+            let max = 1300;
+            
+            const xScale = d3.scaleLinear()
+            .domain([1,12])
+            .range([0, line_chart_width]);
+
+            const yScale = d3.scaleLinear()
+            .domain([0, max])
+            .range([line_chart_height, 0]);
+
+            const xAxis = d3.axisBottom()
+            .scale(xScale);
+
+            const yAxis = d3.axisLeft()
+            .scale(yScale);
+
+            svg_line.selectAll('g').remove();
+            let arcs = svg_line
+            .selectAll('g')
+            .data(data)
+            .enter()
+            .append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(' + 60 + ',' + ( line_chart_height ) + ')')
+            .call(xAxis);
+            }
+
+        d3.json('./data/trade_with_china/trade_data.json').then(data => {
+            pos_prestack = data['pos_prestack'];
+            neg_prestack = data['neg_prestack'];
+            pos_item_list = data['pos_item_list'];
+            neg_item_list = data['neg_item_list'];
+            date_list = data['date_list'];
+            
+            pos_keys = pos_item_list
+            neg_keys = neg_item_list
+
+            pos_color=d3.scaleDiverging(d3.interpolateSpectral)
+            .domain([0, pos_item_list.length])
+            neg_color=d3.scaleDiverging(d3.interpolateCool)
+            .domain([0, neg_item_list.length])
+
+            // generate low_max and up_max for Y-scale; 
+            up_max = d3.max(pos_prestack, year_unit => { //y轴最大值
+                // console.log(seq);
+                result = 0;
+                for( let item_name in year_unit ){
+                    value = year_unit[item_name]
+                    if( value > 0 && item_name != 'year'){
+                        result += value
+                    }
+                }
+                return result;
+            })
+
+            low_max = d3.min(neg_prestack, year_unit => { //y轴最低值
+                result = 0;
+                for( let item_name in year_unit ){
+                    value = year_unit[item_name]
+                    if( value < 0 ){
+                        result += value
+                    }
+                }
+                return result;
+            })
+
+            renderinit();
+
+            //这里的d对应的是stack之后的数据项
+            const pos_area = d3.area()
+            .curve(d3.curveCardinal.tension(0.3)) // default is d3.curveLinear, d3.curveBundle.beta(1.0)
+            .x(d => xScale(xValue(d.data)))
+            .y0(d => yScale(d[0]))
+            .y1(d => yScale(d[1]));
+
+            const neg_area = d3.area()
+            .curve(d3.curveCardinal.tension(0.3))
+            .x((d) => xScale(xValue(d.data)))
+            .y0(d => nyScale(d[0]))
+            .y1(d => nyScale(d[1]));
+            
+            line_chart_update();
+
+            // set the animation interval; 
+            render(pos_prestack, pos_keys, pos_area);
+            render(neg_prestack, neg_keys, neg_area); 
+        });
+    </script>
+  </body>
+</html>

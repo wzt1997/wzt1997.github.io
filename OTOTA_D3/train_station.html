@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Train Network</title>
-    <link rel="stylesheet" href="css/d3tip.css">
+    
     <script src="js/d3.min.js"></script>
     <script src="js/library/d3-tip.js"></script>
   </head>
@@ -41,7 +41,7 @@
     .attr('class', 'd3-tip')
     .html(function(d) { 
         id = d.index;
-        return "There are " + city_size[id] + " departures from " + city_mapping[d.index] + " station </br> every day among the stations."; 
+        return "There are " + city_size[id] + " departures from <b>" + city_mapping[d.index] + "</b> station </br> every day among the stations."; 
     });
     svg_main.call(main_tip);
 
@@ -161,7 +161,7 @@
         .attr("transform", "translate(" + (inner_width/2) + "," + ( inner_height + 50) + ")")
         .attr('font-size', '1.2em')
         .style("text-anchor", "middle")
-        .text("Drag to see neighbours or double click for more details");
+        .text("Drag stations to see their neighbours or double click for more details");
 
         lines = svg_main.selectAll('line').data(links)
         .enter()
@@ -348,7 +348,7 @@
     }
 
     // the data is from http://networkrepository.com/socfb-Caltech36.php; 
-    d3.json('./data/train_data_noweight.json').then(async data => {
+    d3.json('./data/train_data/train_data_noweight.json').then(data => {
         links = data.links;
         city_mapping = data.node_list;
         city_size = data.node_size;

@@ -1,0 +1,277 @@
+{
+    "pos_prestack":[
+        {
+            "year":2002,
+            "Plastics":0.12,
+            "Wood; Simply Worked":0.04,
+            "All Motor Vehicles":0.02,
+            "Aircraft & Associated Equipment":3.37,
+            "Oil Seeds and Oleaginous Fruit":0.99
+        },
+        {
+            "year":2003,
+            "Plastics":0.27,
+            "Wood; Simply Worked":0.02,
+            "All Motor Vehicles":0.04,
+            "Aircraft & Associated Equipment":2.37,
+            "Oil Seeds and Oleaginous Fruit":2.89
+        },
+        {
+            "year":2004,
+            "Plastics":0.35,
+            "Wood; Simply Worked":0.04,
+            "All Motor Vehicles":0.04,
+            "Aircraft & Associated Equipment":1.74,
+            "Oil Seeds and Oleaginous Fruit":2.31
+        },
+        {
+            "year":2005,
+            "Plastics":0.54,
+            "Wood; Simply Worked":0.06,
+            "All Motor Vehicles":0.23,
+            "Aircraft & Associated Equipment":3.71,
+            "Oil Seeds and Oleaginous Fruit":2.22
+        },
+        {
+            "year":2006,
+            "Plastics":0.8,
+            "Wood; Simply Worked":0.03,
+            "All Motor Vehicles":0.36,
+            "Aircraft & Associated Equipment":4.7,
+            "Oil Seeds and Oleaginous Fruit":2.52
+        },
+        {
+            "year":2007,
+            "Plastics":1.16,
+            "Wood; Simply Worked":0.06,
+            "All Motor Vehicles":0.58,
+            "Aircraft & Associated Equipment":5.03,
+            "Oil Seeds and Oleaginous Fruit":4.1
+        },
+        {
+            "year":2008,
+            "Plastics":0.99,
+            "Wood; Simply Worked":0.02,
+            "All Motor Vehicles":0.95,
+            "Aircraft & Associated Equipment":3.72,
+            "Oil Seeds and Oleaginous Fruit":7.21
+        },
+        {
+            "year":2009,
+            "Plastics":1.04,
+            "Wood; Simply Worked":0.13,
+            "All Motor Vehicles":0.99,
+            "Aircraft & Associated Equipment":5.12,
+            "Oil Seeds and Oleaginous Fruit":9.16
+        },
+        {
+            "year":2010,
+            "Plastics":0.97,
+            "Wood; Simply Worked":0.33,
+            "All Motor Vehicles":3.37,
+            "Aircraft & Associated Equipment":5.48,
+            "Oil Seeds and Oleaginous Fruit":10.88
+        },
+        {
+            "year":2011,
+            "Plastics":1.02,
+            "Wood; Simply Worked":0.64,
+            "All Motor Vehicles":5.28,
+            "Aircraft & Associated Equipment":6.01,
+            "Oil Seeds and Oleaginous Fruit":10.52
+        },
+        {
+            "year":2012,
+            "Plastics":0.84,
+            "Wood; Simply Worked":0.61,
+            "All Motor Vehicles":5.69,
+            "Aircraft & Associated Equipment":7.96,
+            "Oil Seeds and Oleaginous Fruit":14.83
+        },
+        {
+            "year":2013,
+            "Plastics":0.84,
+            "Wood; Simply Worked":0.88,
+            "All Motor Vehicles":8.49,
+            "Aircraft & Associated Equipment":12.13,
+            "Oil Seeds and Oleaginous Fruit":13.23
+        },
+        {
+            "year":2014,
+            "Plastics":0.78,
+            "Wood; Simply Worked":1.12,
+            "All Motor Vehicles":11.06,
+            "Aircraft & Associated Equipment":13.42,
+            "Oil Seeds and Oleaginous Fruit":14.44
+        },
+        {
+            "year":2015,
+            "Plastics":0.69,
+            "Wood; Simply Worked":0.9,
+            "All Motor Vehicles":8.81,
+            "Aircraft & Associated Equipment":14.95,
+            "Oil Seeds and Oleaginous Fruit":10.51
+        },
+        {
+            "year":2016,
+            "Plastics":0.78,
+            "Wood; Simply Worked":1.13,
+            "All Motor Vehicles":7.58,
+            "Aircraft & Associated Equipment":14.11,
+            "Oil Seeds and Oleaginous Fruit":14.33
+        }
+    ],
+    "neg_prestack":[
+        {
+            "year":2002,
+            "Telecommunications Equipment":-5.39,
+            "Automatic Data Process Machines":-8.41,
+            "Toys And Sporting Goods":-14.84,
+            "Footwear":-10.19,
+            "Articles Of Apparel Of Textile Fabrics":-2.75
+        },
+        {
+            "year":2003,
+            "Telecommunications Equipment":-7.06,
+            "Automatic Data Process Machines":-14.53,
+            "Toys And Sporting Goods":-16.42,
+            "Footwear":-10.53,
+            "Articles Of Apparel Of Textile Fabrics":-3.36
+        },
+        {
+            "year":2004,
+            "Telecommunications Equipment":-11.18,
+            "Automatic Data Process Machines":-23.67,
+            "Toys And Sporting Goods":-17.51,
+            "Footwear":-11.32,
+            "Articles Of Apparel Of Textile Fabrics":-4.01
+        },
+        {
+            "year":2005,
+            "Telecommunications Equipment":-16.51,
+            "Automatic Data Process Machines":-29.11,
+            "Toys And Sporting Goods":-19.5,
+            "Footwear":-12.68,
+            "Articles Of Apparel Of Textile Fabrics":-6.05
+        },
+        {
+            "year":2006,
+            "Telecommunications Equipment":-20.63,
+            "Automatic Data Process Machines":-32.98,
+            "Toys And Sporting Goods":-21.31,
+            "Footwear":-13.83,
+            "Articles Of Apparel Of Textile Fabrics":-7.21
+        },
+        {
+            "year":2007,
+            "Telecommunications Equipment":-28.42,
+            "Automatic Data Process Machines":-27.62,
+            "Toys And Sporting Goods":-26.59,
+            "Footwear":-14.1,
+            "Articles Of Apparel Of Textile Fabrics":-8.52
+        },
+        {
+            "year":2008,
+            "Telecommunications Equipment":-30.58,
+            "Automatic Data Process Machines":-28.81,
+            "Toys And Sporting Goods":-27.72,
+            "Footwear":-14.44,
+            "Articles Of Apparel Of Textile Fabrics":-8.55
+        },
+        {
+            "year":2009,
+            "Telecommunications Equipment":-29.24,
+            "Automatic Data Process Machines":-31.06,
+            "Toys And Sporting Goods":-23.56,
+            "Footwear":-13.29,
+            "Articles Of Apparel Of Textile Fabrics":-9.2
+        },
+        {
+            "year":2010,
+            "Telecommunications Equipment":-37.73,
+            "Automatic Data Process Machines":-43.11,
+            "Toys And Sporting Goods":-25.23,
+            "Footwear":-15.86,
+            "Articles Of Apparel Of Textile Fabrics":-11.03
+        },
+        {
+            "year":2011,
+            "Telecommunications Equipment":-43.73,
+            "Automatic Data Process Machines":-51.6,
+            "Toys And Sporting Goods":-22.73,
+            "Footwear":-16.66,
+            "Articles Of Apparel Of Textile Fabrics":-11.59
+        },
+        {
+            "year":2012,
+            "Telecommunications Equipment":-55.97,
+            "Automatic Data Process Machines":-53.59,
+            "Toys And Sporting Goods":-22.46,
+            "Footwear":-17.09,
+            "Articles Of Apparel Of Textile Fabrics":-11.37
+        },
+        {
+            "year":2013,
+            "Telecommunications Equipment":-60.7,
+            "Automatic Data Process Machines":-52.8,
+            "Toys And Sporting Goods":-22.27,
+            "Footwear":-16.96,
+            "Articles Of Apparel Of Textile Fabrics":-11.83
+        },
+        {
+            "year":2014,
+            "Telecommunications Equipment":-66.33,
+            "Automatic Data Process Machines":-52.25,
+            "Toys And Sporting Goods":-23.38,
+            "Footwear":-17.01,
+            "Articles Of Apparel Of Textile Fabrics":-11.98
+        },
+        {
+            "year":2015,
+            "Telecommunications Equipment":-69.27,
+            "Automatic Data Process Machines":-49.53,
+            "Toys And Sporting Goods":-25.2,
+            "Footwear":-17.19,
+            "Articles Of Apparel Of Textile Fabrics":-11.96
+        },
+        {
+            "year":2016,
+            "Telecommunications Equipment":-67.25,
+            "Automatic Data Process Machines":-45.51,
+            "Toys And Sporting Goods":-24.4,
+            "Footwear":-14.73,
+            "Articles Of Apparel Of Textile Fabrics":-10.79
+        }
+    ],
+    "pos_item_list":[
+        "Plastics",
+        "Wood; Simply Worked",
+        "All Motor Vehicles",
+        "Aircraft & Associated Equipment",
+        "Oil Seeds and Oleaginous Fruit"
+    ],
+    "neg_item_list":[
+        "Telecommunications Equipment",
+        "Automatic Data Process Machines",
+        "Toys And Sporting Goods",
+        "Footwear",
+        "Articles Of Apparel Of Textile Fabrics"
+    ],
+    "date_list":[
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016
+    ]
+}
