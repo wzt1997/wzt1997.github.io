@@ -6,8 +6,8 @@
     <script src="js/d3.min.js"></script>
     <script src="js/library/d3-tip.js"></script>
   </head>
-  <body>
-    <div style="display: flex;">  
+  <body style="text-align: center">
+    <div style="display: flex; background-color: #f7f7f7;">  
         <div id = "pie">
             <svg width="400" height="700" id="piesvg" class="svgs"></svg>
         </div>
@@ -294,11 +294,23 @@
         .domain([0, data_para.length])
 
         svg_pie.selectAll("text").remove();
-        svg_pie.append("text")
-        .attr("transform", "translate(" + (pie_width/2) + "," + (inner_height/2 - 130) + ")")
+        var text = svg_pie
+        .append("text")
+        .attr("transform", "translate(" + (pie_width/2 + 50) + "," + (inner_height/2 -180) + ")")
         .attr('font-size', '1.5em')
         .style("text-anchor", "middle")
-        .text("Depatures from "+ city_mapping[cur_node.index]+" station");
+        // .text("Departures from "+ city_mapping[cur_node.index]+" station");
+
+        strs = [ "Departures from ", city_mapping[cur_node.index]+" station" ];
+        text.selectAll('tspan')
+            .data(strs)
+            .enter()
+            .append("tspan")
+            .attr("x", text.attr("x") - 50)
+			.attr("dy","1.2em")
+			.text(function(d){
+				return d;
+			});
 
         svg_pie.selectAll('g').remove();
         let arcs = svg_pie
