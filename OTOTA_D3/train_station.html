@@ -9,10 +9,10 @@
   <body style="text-align: center">
     <div style="display: flex; background-color: #f7f7f7;">  
         <div id = "pie">
-            <svg width="400" height="700" id="piesvg" class="svgs"></svg>
+            <svg width="600" height="800" id="piesvg" class="svgs"></svg>
         </div>
         <div id = "network">
-            <svg width="1000" height="700" id="mainsvg" class="svgs"></svg>
+            <svg width="1000" height="800" id="mainsvg" class="svgs"></svg>
         </div>
     </div>
     <script>
@@ -145,21 +145,21 @@
         // mapping the weights of stations to the radius of the circles
         const city_weight_scale = d3.scaleLinear()
         .domain([min_city_weight, max_city_weight])
-        .range([8, 60]);
+        .range([10, 70]);
 
         const link_weight_scale = d3.scaleLinear()
         .domain([min_link_weight, max_link_weight])
         .range([1.2, 12]);
 
         svg_main.append("text")
-        .attr("transform", "translate(" + (inner_width/2) + "," + 30 + ")")
-        .attr('font-size', '1.6em')
+        .attr("transform", "translate(" + (inner_width/2) + "," + 50 + ")")
+        .attr('font-size', '1.7em')
         .style("text-anchor", "middle")
         .text("Connection Between the Busiest Railway Stations in China");
 
         svg_main.append("text")
         .attr("transform", "translate(" + (inner_width/2) + "," + ( inner_height + 50) + ")")
-        .attr('font-size', '1.2em')
+        .attr('font-size', '1.3em')
         .style("text-anchor", "middle")
         .text("Drag stations to see their neighbours or double click for more details");
 
@@ -249,7 +249,7 @@
                 .enter().append("g")
                 .attr("class", "legend")
                 .attr("transform", function(d, i) { 
-                    return "translate(" + (inner_width + 100) + "," + (i * 25 + 100) + ")"; 
+                    return "translate(" + (inner_width + 70) + "," + (i * 25 + 100) + ")"; 
                 });
         
         // draw legend colored rectangles
@@ -296,7 +296,7 @@
         svg_pie.selectAll("text").remove();
         var text = svg_pie
         .append("text")
-        .attr("transform", "translate(" + (pie_width/2 + 50) + "," + (inner_height/2 -180) + ")")
+        .attr("transform", "translate(" + (pie_width/2 + 50) + "," + (inner_height/2 -250) + ")")
         .attr('font-size', '1.5em')
         .style("text-anchor", "middle")
         // .text("Departures from "+ city_mapping[cur_node.index]+" station");
@@ -346,7 +346,7 @@
         .on('mouseover', function(d){
             d3.select(this)
             .attr("opacity", 0.9)
-            .attr("stroke","white")
+            .attr("stroke","black")
             .attr("stroke-width", 2);
             pie_tip.show(d);
         })
