@@ -11,10 +11,10 @@
   <body style="text-align: center">
     <div style="display: flex; background-color: #f7f7f7;">  
         <div id = "line_chart">
-            <svg width="400" height="900" id="line" class="svgs"></svg>
+            <svg width="400" height="700" id="line" class="svgs"></svg>
         </div>
         <div id = "trade_river">
-            <svg width="1200" height="900" id="river" class="svgs"></svg>
+            <svg width="1000" height="700" id="river" class="svgs"></svg>
         </div>
     </div>
     <!-- <svg width="1650" height="920" id="river" class="svgs" style=""></svg> -->
@@ -27,18 +27,19 @@
         const line_svg_width = +svg_line.attr('width')
         const line_svg_height = +svg_line.attr('height')
 
-        const margin = {top: 150, right: 120, bottom: 150, left: 120};
+        const margin = {top: 50, right: 120, bottom: 150, left: 120};
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
         const chart_width = innerWidth - 120, chart_height = innerHeight;
         const line_chart_width = line_svg_width, line_chart_height = chart_height;
+        const chart_left_padding = 40;
 
         const xValue = (datum) => { return date_list.indexOf(datum['year']); };
 
         let low_max = 0; 
         let up_max = 0;
         let xScale, yScale, nyScale;
-        let totalduration = 4000;
+        let totalduration = 3000;
 
         let pos_prestack = [];
         let neg_prestack = [];
@@ -46,6 +47,8 @@
         let neg_item_list = [];
         let date_list = [];
         let pos_keys = [], neg_keys = [];
+        let line_chart_data;
+        let cur_line_chart_data, cur_line_chart_item_name;
         let pos_color, neg_color;
 
         const xAxisLabel = 'Year';
@@ -54,10 +57,18 @@
         const main_tip = d3.tip()
         .attr('class', 'd3-tip')
         .html(function(d) { 
-            console.log(d)
+            // console.log(d)
             return d.key;
         });
         svg.call(main_tip);
+
+        const line_chart_tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .html(function(d) { 
+            // console.log(d)
+            return "The trade in the </br>" + cur_line_chart_item_name + " field</br> in " + d[0] + " is " + d[1] + " billion dollar.";
+        });
+        svg_line.call(line_chart_tip);
 
         const renderinit = function(){ 
             // Linear Scale: Data Space -> Screen Space; 
@@ -107,6 +118,12 @@
             svg.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`)
             .attr('id', 'neg_group');
+
+            svg.append("text")
+            .attr("transform", "translate(" + (innerWidth/2) + "," + 30 + ")")
+            .style('font-size', '1.4em')
+            .style("text-anchor", "middle")
+            .text("Merchandise Balance between the U.S. with China");
 
             // Adding axes; 
             var formatter = d3.format("0")
@@ -234,7 +251,7 @@
                 g = d3.select('#pos_group')
             }
             else{
-                console.log("neg")
+                // console.log("neg")
                 g = d3.select('#neg_group')
             }
 
@@ -259,15 +276,16 @@
             .attr("opacity",0.9)
             //.transition().duration(3000)
             .attr("d", function(d,i) {
-                console.log(d);
+                // console.log(d);
                 return area(d);
             })
             .attr("clip-path", "url(#rectClip)")
             // fill attrbute requires designers to assign colors for each province; 
             .attr("fill", function (d,i) {
-                console.log(d["key"]);
+                // console.log(d["key"]);
                 return keys[0] == pos_keys[0] ? pos_color(i) : neg_color(i); 
-            });
+            })
+            .style('cursor', 'pointer');
 
             clipedrect
             .transition()
@@ -289,41 +307,125 @@
                 .attr("stroke",null)
                 main_tip.hide(d);
             })
+            .on('click', function(d){
+                cur_line_chart_data = line_chart_data[d.key];
+                cur_line_chart_item_name = d.key;
+                line_chart_update(cur_line_chart_data);
+            });
 
-            console.log("clipdirect:", clipedrect)
+            // console.log("clipdirect:", clipedrect)
 
         };
 
-        const line_chart_update = function(){
+        const line_chart_update = function(data){
+            
+            svg_line.selectAll("text").remove();
+            var title = svg_line.append("text")
+            .attr("transform", "translate(" + (line_chart_width / 2 + 70) + "," + ( margin.top + line_chart_height / 3 - 80 ) + ")")
+            .style('font-size', '1.2em')
+            .style("text-anchor", "middle")
+
+            strs = [ "Change of", cur_line_chart_item_name, " trade volume over time" ];
+            title.selectAll('tspan')
+            .data(strs)
+            .enter()
+            .append("tspan")
+            .attr("x", title.attr("x") - 50)
+			.attr("dy","1.2em")
+			.text(function(d){
+				return d;
+			});
+
+
             //TODO: update line chart
-            const data = [[1, 224], [2, 528], [3, 756], [4, 632], [5, 582], [6, 704],
-            [7, 766], [8, 804], [9, 884], [10, 960], [11, 1095], [12, 1250]];
-            let max = 1300;
+            let max_data = -1000, min_data = 1000;
+            for( let i = 0; i < data.length; i ++ ){
+                max_data = Math.max( max_data, data[i][1] )
+                min_data = Math.min( min_data, data[i][1] )
+            }
+            //console.log( max_data, min_data)
+            var formatter = d3.format("0")
+            const chart_color = max_data > 0 ? 
+                pos_color(pos_item_list.indexOf( cur_line_chart_item_name )) :
+                neg_color(neg_item_list.indexOf( cur_line_chart_item_name ));
             
             const xScale = d3.scaleLinear()
-            .domain([1,12])
-            .range([0, line_chart_width]);
-
+            .domain([2002,2016])
+            .range([0, line_chart_width - chart_left_padding - 5]);
+ 
             const yScale = d3.scaleLinear()
-            .domain([0, max])
-            .range([line_chart_height, 0]);
+            .domain([min_data > 0 ? min_data * 0.9 : min_data * 1.1, max_data > 0 ? max_data * 1.1 : max_data * 0.9 ])
+            .range([line_chart_height / 3 * 2, 0]); //highet of the chart is 2/3 of the svg
 
             const xAxis = d3.axisBottom()
-            .scale(xScale);
+            .scale(xScale)
+            .tickFormat( d=>{
+                if( d % 4 == 2)
+                    return formatter(d);
+            });
 
             const yAxis = d3.axisLeft()
             .scale(yScale);
 
             svg_line.selectAll('g').remove();
-            let arcs = svg_line
+            svg_line
             .selectAll('g')
             .data(data)
             .enter()
             .append('g')
             .attr('class', 'axis')
-            .attr('transform', 'translate(' + 60 + ',' + ( line_chart_height ) + ')')
+            .attr('transform', 'translate(' + chart_left_padding + ',' + ( margin.top + line_chart_height  ) + ')')
             .call(xAxis);
+
+            svg_line
+            .append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(' + chart_left_padding + ',' + ( margin.top + line_chart_height / 3 ) + ')')
+            .call(yAxis);
+
+            let linePath = d3.line()
+            .x(function(d){ return xScale(d[0]) })
+            .y(function(d){ return yScale(d[1]) });
+
+            let path = svg_line
+            .append('g')
+            .append('path')
+            .attr('class', 'line-path')
+            .attr('transform', 'translate(' + chart_left_padding + ',' + ( margin.top + line_chart_height /3 ) + ')')
+            .attr('d', linePath(data))
+            .attr('fill', 'none')
+            .attr('stroke-width', 3)
+            .attr('stroke', chart_color);
+
+            let circles = svg_line
+            .append('g')
+            .selectAll('circle')
+            .data(data)
+            .enter()
+            .append('circle')
+            .attr('r', 5)
+            .attr('transform', function(d){
+                return 'translate(' + (xScale(d[0]) + 40) + ',' + (yScale(d[1]) + margin.top + line_chart_height /3) + ')'
+            })
+            .attr('fill', chart_color);
+
+            circles
+            .on('mouseover', function(d){
+                d3.select(this)
+                .attr("opacity", 0.8)
+                .attr("stroke","black")
+                .attr("stroke-width", 2);
+                line_chart_tip.show(d);
+            })
+            .on('mouseout', function(d){
+                d3.select(this)
+                .attr("opacity", 1)
+                .attr("stroke",null)
+                line_chart_tip.hide(d);
+            })
+
             }
+       
 
         d3.json('./data/trade_with_china/trade_data.json').then(data => {
             pos_prestack = data['pos_prestack'];
@@ -331,6 +433,7 @@
             pos_item_list = data['pos_item_list'];
             neg_item_list = data['neg_item_list'];
             date_list = data['date_list'];
+            line_chart_data = data['line_chart_data']
             
             pos_keys = pos_item_list
             neg_keys = neg_item_list
@@ -378,8 +481,13 @@
             .x((d) => xScale(xValue(d.data)))
             .y0(d => nyScale(d[0]))
             .y1(d => nyScale(d[1]));
+
             
-            line_chart_update();
+            // console.log("line_chart_data:", line_chart_data);
+            // console.log("data", data)
+            cur_line_chart_data = line_chart_data[pos_item_list[0]];
+            cur_line_chart_item_name = pos_item_list[0];
+            line_chart_update(cur_line_chart_data);
 
             // set the animation interval; 
             render(pos_prestack, pos_keys, pos_area);
