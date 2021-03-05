@@ -14,7 +14,7 @@
             <svg width="400" height="700" id="line" class="svgs"></svg>
         </div>
         <div id = "trade_river">
-            <svg width="1000" height="700" id="river" class="svgs"></svg>
+            <svg width="1200" height="700" id="river" class="svgs"></svg>
         </div>
     </div>
     <!-- <svg width="1650" height="920" id="river" class="svgs" style=""></svg> -->
@@ -27,10 +27,10 @@
         const line_svg_width = +svg_line.attr('width')
         const line_svg_height = +svg_line.attr('height')
 
-        const margin = {top: 50, right: 120, bottom: 150, left: 120};
+        const margin = {top: 50, right: 70, bottom: 150, left: 120};
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
-        const chart_width = innerWidth - 120, chart_height = innerHeight;
+        const chart_width = innerWidth - 300, chart_height = innerHeight;
         const line_chart_width = line_svg_width, line_chart_height = chart_height;
         const chart_left_padding = 40;
 
@@ -123,7 +123,19 @@
             .attr("transform", "translate(" + (innerWidth/2) + "," + 30 + ")")
             .style('font-size', '1.4em')
             .style("text-anchor", "middle")
-            .text("Merchandise Balance between the U.S. with China");
+            .text("Volume of U.S. Merchandise Trade with China");
+
+            svg.append("text")
+            .attr("transform", "translate(" + (margin.left + 20) + "," + (margin.top + 35) + ")")
+            .style('font-size', '1.4em')
+            .style("text-anchor", "left")
+            .text("Export");
+
+            svg.append("text")
+            .attr("transform", "translate(" + (margin.left + 20) + "," + (margin.top + chart_height - 20) + ")")
+            .style('font-size', '1.4em')
+            .style("text-anchor", "left")
+            .text("Import");
 
             // Adding axes; 
             var formatter = d3.format("0")
@@ -172,7 +184,7 @@
             .attr('id', 'xaxis');
             d3
             .selectAll('#xaxis .tick text')
-            .attr('transform', `translate(${0}, ${5})`);
+            .attr('transform', `translate(${0}, ${3})`);
             xAxisGroup.append('text')
             .attr('y', 50)
             .attr('x', chart_width / 2)
@@ -191,6 +203,19 @@
             //var province_name = ["湖北", "广东", "河南", "浙江", "湖南", "安徽", "江西", "江苏", "重庆", "山东", "四川", "黑龙江", "北京", "上海", "河北", "福建", "广西", "陕西", "海南", "云南", "贵州", "山西", "天津", "辽宁", "甘肃", "吉林", "宁夏", "新疆", "内蒙古", "香港", "青海", "台湾", "澳门", "西藏"]
             // draw legend
 
+            svg.append("text")
+            .attr("transform", "translate(" + (chart_width + 130) + "," + 130 + ")")
+            .style('font-size', '1.2em')
+            .style("text-anchor", "left")
+            .text("Export");
+
+            svg.append("text")
+            .attr("transform", "translate(" + (chart_width + 130) + "," + 283 + ")")
+            .style('font-size', '1.2em')
+            .style("text-anchor", "left")
+            .text("Import");
+            
+            
             var legend = svg
             .selectAll(".legend")
                 .data(pos_item_list)
@@ -199,7 +224,7 @@
                 .attr("class", "legend")
                 .attr("transform", function(d, i) { return "translate(" + (chart_width + 130) + "," + (i * 25 + 140) + ")"; });
 			
-            // draw legend colored rectangles
+                // draw legend colored rectangles
             legend.append("rect")
             .data(pos_item_list) 
             .attr("x", 0)
@@ -355,7 +380,11 @@
  
             const yScale = d3.scaleLinear()
             .domain([min_data > 0 ? min_data * 0.9 : min_data * 1.1, max_data > 0 ? max_data * 1.1 : max_data * 0.9 ])
-            .range([line_chart_height / 3 * 2, 0]); //highet of the chart is 2/3 of the svg
+            .range([line_chart_height / 3 * 2, 0])
+            
+            const line_yScale = d3.scaleLinear()
+            .domain([min_data > 0 ? min_data * 0.9 : min_data * 1.1, max_data > 0 ? max_data * 1.1 : max_data * 0.9 ])
+            .range(min_data > 0 ? [line_chart_height / 3 * 2, 0] : [ 0, line_chart_height / 3 * 2]);
 
             const xAxis = d3.axisBottom()
             .scale(xScale)
@@ -363,12 +392,17 @@
                 if( d % 4 == 2)
                     return formatter(d);
             });
+            
 
             const yAxis = d3.axisLeft()
-            .scale(yScale);
+            .scale(line_yScale)
+            .tickFormat( d=>{
+                if( d < 0 ) d = -d;
+                return formatter(d);
+            });
 
             svg_line.selectAll('g').remove();
-            svg_line
+            let axisGroup = svg_line
             .selectAll('g')
             .data(data)
             .enter()
@@ -383,9 +417,17 @@
             .attr('transform', 'translate(' + chart_left_padding + ',' + ( margin.top + line_chart_height / 3 ) + ')')
             .call(yAxis);
 
+            axisGroup
+            .append('text')
+            .attr('y', 45)
+            .attr('x', line_chart_width / 2)
+            .attr('fill', 'black')
+            .style('font-size', '1.8em')
+            .text('Year');
+
             let linePath = d3.line()
             .x(function(d){ return xScale(d[0]) })
-            .y(function(d){ return yScale(d[1]) });
+            .y(function(d){ return line_yScale(d[1]) });
 
             let path = svg_line
             .append('g')
@@ -405,7 +447,7 @@
             .append('circle')
             .attr('r', 5)
             .attr('transform', function(d){
-                return 'translate(' + (xScale(d[0]) + 40) + ',' + (yScale(d[1]) + margin.top + line_chart_height /3) + ')'
+                return 'translate(' + (xScale(d[0]) + 40) + ',' + (line_yScale(d[1]) + margin.top + line_chart_height /3) + ')'
             })
             .attr('fill', chart_color);
 
