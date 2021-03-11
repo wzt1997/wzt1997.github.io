@@ -69,21 +69,29 @@
 
     function dragstarted(d) {
         if(!d3.event.active){
-            simulation.alphaTarget(0.007).restart();
+            simulation.alphaTarget(0.008).restart();
         }
 
         d3.select(this)
-        .raise()
+        //.raise()
         .attr("stroke", "black")
         .attr("stroke-width", 3)
         .attr("cx", d.x)
         .attr("cy", d.y);
         //simulation.stop();
 
+        station_id = 'station_name_' + this['id'].split('_')[1]
+        d3.select('#'+station_id)
+        .attr("fill", "black")
+        .attr("x", d.x)
+        .attr("y", d.y);
+
         var neighbours = [];
         for(let i = 0; i < city_mapping.length; i++){
             if( d.index != i && !isConnected( d.index, i )){
                 d3.select("#circle_"+i)
+                .attr("opacity", 0.1);
+                d3.select("#station_name_"+i)
                 .attr("opacity", 0.1);
             }
         }
@@ -97,12 +105,14 @@
             }
         }
     }
+
     function dragged(d) {
         d3.select(this)
         .attr("cx", d.x = d3.event.x)
         .attr("cy", d.y = d3.event.y);
         ticked();
     }
+
     function dragended(d) {
         if(!d3.event.active){
             simulation.alphaTarget(0);
@@ -112,9 +122,17 @@
         .attr("cx", null)
         .attr("cy", null);
 
+        station_id = 'station_name_' + this['id'].split('_')[1]
+        d3.select('#'+station_id)
+        .attr("fill", 'white')
+        .attr("x", d.x)
+        .attr("y", d.y);
+
         for(let i = 0; i < city_mapping.length; i++){
             if(d.index != i && !isConnected( d.index, i )){
                 d3.select("#circle_"+i)
+                .attr("opacity", 1);
+                d3.select("#station_name_"+i)
                 .attr("opacity", 1);
             }
         } 
@@ -134,6 +152,10 @@
         circles
         .attr('cx', d => d.x)
         .attr('cy', d => d.y);
+
+        texts
+        .attr('x', d => d.x)
+        .attr('y', d => d.y);
     }
 
     const drag = d3.drag()
@@ -151,6 +173,10 @@
         .domain([min_link_weight, max_link_weight])
         .range([1.2, 12]);
 
+        const station_name_scale = d3.scaleLinear()
+        .domain([30,70])
+        .range([0.5,1.3])
+
         svg_main.append("text")
         .attr("transform", "translate(" + (inner_width/2) + "," + 50 + ")")
         .attr('font-size', '1.7em')
@@ -163,7 +189,8 @@
         .style("text-anchor", "middle")
         .text("Drag stations to see their neighbours or double click for more details");
 
-        lines = svg_main.selectAll('line').data(links)
+        lines = svg_main.selectAll('line')
+        .data(links)
         .enter()
         .append('line')
         .attr('stroke', 'black')
@@ -194,9 +221,12 @@
             // line_tip.hide(d);
         })
 
-        circles = svg_main.selectAll('circle')
+        var circle_g = svg_main.selectAll('g')
         .data(nodes)
         .enter()
+        .append("g")
+
+        circles = circle_g
         .append('circle')
         .attr('r', d => city_weight_scale( city_size[ d.index ] ))
         .attr('fill', d => color( d.index))
@@ -213,6 +243,9 @@
             .attr("stroke","black")
             .attr("stroke-width", 4);
             main_tip.show(d);
+
+            d3.select("#station_name_"+d.index)
+            .attr('fill', 'black')
         })
         .on('mouseout', function(d){
             d3.select(this)
@@ -220,13 +253,35 @@
             .attr("stroke","black")
             .attr("stroke-width", 2);
             main_tip.hide(d);
+
+            d3.select("#station_name_"+d.index)
+            .attr("fill",'white')
         })
         .on('dblclick', function(d){
             let cur_pie_data = pie_data[ d.index ];
             cur_node = d;
             pie_update( cur_pie_data );
-            console.log(d);
+            //console.log(d);
         });
+
+        texts = circle_g
+        .append('text')
+        .attr('id', d => "station_name_" + d.index)
+        .attr('text-anchor', 'middle')
+        .attr('fill','white')
+        .attr('font-size', d=>{
+            let radius = city_weight_scale( city_size[ d.index ] )
+            if( radius < 30 ){
+                return '0'
+            }
+            else{
+                return station_name_scale(radius)+'em'
+            }
+        })
+        .text((d)=>{
+            return city_mapping[d.index];
+        })
+        // .call(drag)
 
         // circles
         // .append('text')
@@ -235,7 +290,7 @@
         //     var x = d.x;
         //     var y = d.y;
         //     console.log(d.x, d.y)
-        //     return 'translate(' + d.x + ', ' + d.y + ')';
+        //     return 'translate(' + x + ', ' + y + ')';
         // })
         // .attr('text-anchor', 'middle')
         // .attr('font-size', '1.1em')
@@ -329,17 +384,33 @@
         arcs
         .append('text')
         .attr('transform', function(d, i){
-            // console.log(d);
             var x = arc.centroid(d)[0] * 2.4;
             var y = arc.centroid(d)[1] * 2.4;
             return 'translate(' + x + ', ' + y + ')';
         })
         .attr('text-anchor', 'middle')
-        .attr('font-size', '1em')
+        .attr('font-size', '1.1em')
         .style('fill', 'black')
         .text((d)=>{
             // console.log(d);
             return Math.abs(d.startAngle - d.endAngle) > 0.15 ? d.data.x : null;
+        });
+
+        arcs
+        .append('text')
+        .attr('transform', function(d, i){
+            var x = arc.centroid(d)[0] * 1.3;
+            var y = arc.centroid(d)[1] * 1.3;
+            return 'translate(' + x + ', ' + y + ')';
+        })
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '1.1em')
+        .style('fill', 'white')
+        .text((d)=>{
+            var percent = Number(d.data.y) / d3.sum(draw_pie_data, function(d){
+                return d.data.y;
+            }) * 100; 
+            return Math.abs(d.startAngle - d.endAngle) > 0.15 ? percent.toFixed(1)+'%' : null;
         });
 
         arcs
