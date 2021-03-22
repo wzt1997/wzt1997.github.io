@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<meta name="referrer" content="no-referrer" />
+<html>
+
+<head>
+    <title>Player Statistics Display</title>
+    <link rel="stylesheet" href="css/d3tip.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/d3tip.css">
+    <link rel="stylesheet" href="js/library/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="js/library/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/library/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/library/d3-tip.js"></script>
+    <script src="js/library/radarChart/radarChart.js"></script>
+
+</head>
+
+<body style="text-align: center">
+    <!--bootstrap 栅格式布局-->
+    <div class="container" style="background-color: #f7f7f7;">
+        <div class="row border_setting">
+            <div class="col-lg-6">
+
+                <div class="dropdown" style="text-align: left; font-size: 1.5em;">
+                    Please select your player:
+                    <select class="combobox" id="player_list" style="cursor:pointer;" size="1"
+                        onchange="playerChange()">
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-lg-6" style=" text-align: right; font-size: 2em;">
+                Attribute Detail
+            </div>
+        </div>
+        <div class="row border_setting">
+            <div class="col-lg-6">
+                <div class="container-fluid">
+                    <div id="player_name" class="row"></div>
+                    <div id="player_image" class="row"></div>
+                    <div id="player_info" class="row"></div>
+                    <div id="player_team_info" class="row"></div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div id="radar_chart" class="radarChart"> </div>
+                <div id="radarChart_note" class="row">
+                </div>
+            </div>
+        </div>
+        <div class="row border_setting">
+            <div class="row" style="margin-left: 5px; text-align: left; font-size: 1.6em;"> ATTRIBUTES </div>
+            <div class="container" id="attack_data">
+                <div class="row col-lg-12" style="margin-bottom: 10px; text-align: middle; font-size: 1.5em;"> ATTACK
+                </div>
+                <div id="attack_detail_data"></div>
+            </div>
+            <HR style="border:1.2px solid #999999;" width="80%" color="#999999" />
+            <div class="container" id="skill_data">
+                <div class="row col-lg-12" style="margin-bottom: 10px; text-align: middle; font-size: 1.5em;"> SKILL
+                </div>
+                <div id="skill_detail_data"></div>
+            </div>
+            <HR style="border:1.2px solid #999999;" width="80%" color="#999999" />
+            <div class="container" id="movement_data">
+                <div class="row col-lg-12" style="margin-bottom: 10px; text-align: middle; font-size: 1.5em;"> MOVEMENT
+                </div>
+                <div id="movement_detail_data"></div>
+            </div>
+            <HR style="border:1.2px solid #999999;" width="80%" color="#999999" />
+            <div class="container" id="strength_data">
+                <div class="row col-lg-12" style="margin-bottom: 10px; text-align: middle; font-size: 1.5em;"> STRENGTH
+                </div>
+                <div id="strength_detail_data"></div>
+            </div>
+            <HR style="border:1.2px solid #999999;" width="80%" color="#999999" />
+            <div class="container" id="psychology_data">
+                <div class="row col-lg-12" style="margin-bottom: 10px; text-align: middle; font-size: 1.5em;">
+                    PSYCHOLOGY
+                </div>
+                <div id="psychology_detail_data"></div>
+            </div>
+            <HR style="border:1.2px solid #999999;" width="80%" color="#999999" />
+            <div class="container" id="defense_data">
+                <div class="row col-lg-12" style="margin-bottom: 10px; text-align: middle; font-size: 1.5em;"> DEFENSE
+                </div>
+                <div id="defense_detail_data"></div>
+            </div>
+            <HR style="border:1.2px solid #999999;" width="80%" color="#999999" />
+            <div class="container" id="goalkeeping_data">
+                <div class="row col-lg-12" style="margin-bottom: 10px; text-align: middle; font-size: 1.5em;">
+                    GOALKEEPING
+                </div>
+                <div id="goalkeeping_detail_data"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script type="text/javascript">
+        const margin = {
+            top: 50,
+            right: 70,
+            bottom: 50,
+            left: 70
+        };
+
+        const radar_chart_width = 900 - margin.left - margin.right;
+        const radar_chart_height = 300 - margin.top - margin.bottom;
+        var player_data = [];
+        var player_num;
+    </script>
+
+    <script type="text/javascript">
+        function draw_rader_chart(player_id) {
+            // set up
+            const player = player_data[player_id];
+            var radar_margin = {
+                    top: 0,
+                    right: 100,
+                    bottom: 0,
+                    left: 100
+                },
+                radar_width = Math.min(400, window.innerWidth - 10) - margin.left - margin.right,
+                radar_height = Math.min(400, window.innerHeight - margin.top - margin.bottom - 20);
+
+            //data
+            var data = [
+                [{
+                        axis: "Passing",
+                        value: 75
+                    },
+                    {
+                        axis: "Shooting",
+                        value: 67
+                    },
+                    {
+                        axis: "Dribbling",
+                        value: 77
+                    },
+                    {
+                        axis: "Defense",
+                        value: 69
+                    },
+                    {
+                        axis: "Strength",
+                        value: 73
+                    },
+                    {
+                        axis: "Speed",
+                        value: 74
+                    },
+                ],
+                []
+            ]
+            var axis_lable = ["Passing", "Shooting", "Dribbling", "Defense", "Strength", "Speed"]
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < axis_lable.length; j++) {
+                    data[1][j] = {
+                        'axis': axis_lable[j],
+                        'value': player['RadarAbility'][axis_lable[j]]
+                    }
+                }
+            }
+            console.log("radar data:", data)
+
+            //draw the chart
+            var color = d3.scale.ordinal()
+                .range(["#EDC951", "#CC333F", "#00A0B0"]);
+
+            var radar_options = {
+                w: radar_width,
+                h: radar_height,
+                margin: radar_margin,
+                maxValue: 100,
+                levels: 5,
+                roundStrokes: true,
+                color: color
+            }
+
+            var player_data_width = 400;
+            var header_width = 150,
+                header_height = 200;
+            var player_title = player['Name'];
+            var player_header_url = player['Photo']
+            var player_info_data = {
+                "weight": player['Weight'],
+                "height": player['Height'],
+                "nation": player['Nationality'],
+                "team": player['Club'],
+                "position": player['Best Position']
+            }
+
+            //TODO: clear previous chart
+            d3.select("#player_name_svg").remove();
+            d3.select("#player_image_svg").remove();
+            d3.select("#player_info_svg").remove();
+            d3.select("#player_team_info_svg").remove();
+
+            var player_name = d3.select("#player_name")
+                .append("svg")
+                .attr("id", "player_name_svg")
+                .attr("width", player_data_width)
+                .attr("height", 55)
+                .style("text-anchor", "middle")
+                .append("g")
+                .attr("transform", "translate(" + (player_data_width / 2) + " ," + margin.top + ")");
+
+            player_name
+                .append("text")
+                .text(player_title)
+                .attr("font-size", "2em")
+                .style("fill", "black");
+
+            var player_image = d3.select("#player_image")
+                .append("svg")
+                .attr("id", "player_image_svg")
+                .attr("width", player_data_width)
+                .attr("height", header_height)
+                .style("text-anchor", "middle")
+                .append("g")
+                .attr("transform", "translate(" + (player_data_width / 2 - header_width / 2) + " ," + 0 + ")");
+
+            player_image
+                .append("image")
+                .attr("referer", "no-referrer|origin|unsafe-url")
+                .attr("href", player_header_url)
+                .attr("height", header_height)
+                .attr("width", header_width)
+
+            var player_info = d3.select("#player_info")
+                .append("svg")
+                .attr("id", "player_info_svg")
+                .attr("width", player_data_width)
+                .attr("height", 40)
+                .style("text-anchor", "middle")
+                .append("g")
+                .attr("transform", "translate(" + (player_data_width / 2) + " ," + 20 + ")");
+
+            player_info
+                .append("text")
+                .text(player_info_data.weight + ' /' + player_info_data.height + ' feet/ ' + player_info_data.nation)
+                .attr("font-size", "1.6em")
+                .style("fill", "black");
+
+            var player_team_info = d3.select("#player_info")
+                .append("svg")
+                .attr("id", "player_team_info_svg")
+                .attr("width", player_data_width)
+                .attr("height", 30)
+                .style("text-anchor", "middle")
+                .append("g")
+                .attr("transform", "translate(" + (player_data_width / 2) + " ," + 15 + ")");
+
+            player_team_info
+                .append("text")
+                .text(player_info_data.team + ' /' + player_info_data.position)
+                .attr("font-size", "1.4em")
+                .style("fill", "black");
+
+
+
+            RadarChart(".radarChart", data, radar_options);
+        }
+        // draw_rader_chart(0);
+    </script>
+
+    <script type="text/javascript">
+        function ability_color(x) {
+            if (x >= 90) return "#F32A17";
+            else if (x >= 80) return "#FC7C07";
+            else if (x >= 70) return "#FDBF4E";
+            else if (x >= 60) return "#ABDEA3";
+            else return "#D0D0D0";
+        }
+
+        function update_detail_data(player_id) {
+            const player = player_data[player_id]
+            const player_ability = player['Ability']
+            section_name_list =
+                data_label_list = {
+                    'Attack': ['Crossing', 'Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys'],
+                    'Defense': ['Composure', 'Marking', 'StandingTackle', 'SlidingTackle'],
+                    'Goalkeeping': ['GKDiving', 'GKHandling', 'GKKicking', 'GKPositioning', 'GKReflexes'],
+                    'Movement': ['Acceleration', 'SprintSpeed', 'Agility', 'Reactions', 'Balance'],
+                    'Psychology': ['Aggression', 'Interceptions', 'Positioning', 'Vision', 'Penalties'],
+                    'Skill': ['Dribbling', 'Curve', 'FKAccuracy', 'LongPassing', 'BallControl'],
+                    'Strength': ['ShotPower', 'Jumping', 'Stamina', 'Strength', 'LongShots']
+                }
+
+            var section_name = "Attack";
+            var data_width = 1000,
+                data_height = 150
+
+            for (var section_name in data_label_list) {
+                lower_section_name = section_name.toLowerCase();
+                d3.select("#" + lower_section_name + "_svg").remove();
+            }
+
+            for (var section_name in data_label_list) {
+                lower_section_name = section_name.toLowerCase();
+
+                var svg = d3.select('#' + lower_section_name + "_detail_data")
+                    .append("svg")
+                    .attr("id", lower_section_name + "_svg")
+                    .attr("width", data_width)
+                    .attr("height", data_height)
+
+                var svg_data = svg
+                    .selectAll(".legend")
+                    .data(data_label_list[section_name])
+                    .enter()
+                    .append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function (d, i) {
+                        let x = Math.floor(i / 3),
+                            y = i % 3;
+                        return "translate(" + (y * 350) + "," + (x * 60) + ")";
+                    });
+
+                svg_data.append("rect")
+                    .data(data_label_list[section_name])
+                    .attr("x", 20)
+                    .attr("y", 25)
+                    .attr("rx", 5)
+                    .attr("ry", 5)
+                    .attr("width", d => {
+                        return 260;
+                    })
+                    .attr("height", 15)
+                    .style("fill", "#EAEAEA");
+
+                var ability_rects = svg_data.append("rect")
+                    .data(data_label_list[section_name])
+                    .attr("x", 20)
+                    .attr("y", 25)
+                    .attr("rx", 5)
+                    .attr("ry", 5)
+                    .attr("width", d => {
+                        return 260 * player_ability[section_name][d] / 100;
+                    })
+                    .attr("height", 15)
+                    .style("fill", function (d, i) {
+                        return ability_color(player_ability[section_name][d]);
+                    });
+
+                svg_data.append("text")
+                    .data(data_label_list[section_name])
+                    .attr("class", "legend_text")
+                    .attr("x", 20)
+                    .attr("y", 15)
+                    .attr("font-size", '1.3em')
+                    .attr("fill", '#333333')
+                    .style("text-anchor", "start")
+                    .text(d => d);
+
+                svg_data.append("text")
+                    .data(data_label_list[section_name])
+                    .attr("class", "legend_text")
+                    .attr("x", 260)
+                    .attr("y", 15)
+                    .attr("font-size", '1.3em')
+                    .style("fill", function (d, i) {
+                        return ability_color(player_ability[section_name][d]);
+                    })
+                    .style("text-anchor", "start")
+                    .text(d => {
+                        return player_ability[section_name][d];
+                    });
+
+                // ability_rects
+                // .transition()
+                // .ease(d3.easeLinear)
+                // .duration(1000)
+                // .attr("width", d => {
+                //         return 260 * player_ability[section_name][d] / 100;
+                //     });
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function playerChange() {
+            var my_player_list = document.getElementById("player_list");
+            var index = my_player_list.selectedIndex;
+            console.log(my_player_list[index].value)
+
+            draw_rader_chart(my_player_list[index].value);
+            update_detail_data(my_player_list[index].value);
+        }
+    </script>
+
+    <script type="text/javascript">
+        d3.json('./data/fifa_player_data/player_data_mac.json', function (err, data) {
+            player_data = data;
+            player_num = player_data.length;
+            console.log(player_data[0])
+
+            //update player list
+            str_list = ""
+            player_data.forEach((player, index) => {
+                str_list += '<option value="' + index.toString() + '" id="player_' + index.toString() +
+                    '"><a href="">' + player.Name + '</a></option>'
+            });
+            $('#player_list').append(str_list);
+
+            var player_id = 0;
+            draw_rader_chart(player_id);
+            update_detail_data(player_id);
+        });
+    </script>
+</body>
+
+</html>
