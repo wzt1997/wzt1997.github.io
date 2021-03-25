@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="js/library/bootstrap/css/bootstrap.min.css">
     <script type="text/javascript" src="js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="js/library/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
     <script src="js/library/d3-tip.js"></script>
     <script src="js/library/radarChart/radarChart.js"></script>
 
@@ -46,6 +46,12 @@
             <div class="col-lg-6">
                 <div id="radar_chart" class="radarChart"> </div>
                 <div id="radarChart_note" class="row">
+                    <svg id="note_svg" width="360" height="50">
+                        <rect x="20" y="0" rx="5" ry="5" width="70" height="20" style="fill: #CC333F;">  </rect>
+                        <text x="95" y="18" font-size="1.5em" fill="#333333" style="text-anchor: start;">Player</text>
+                        <rect x="200" y="0" rx="5" ry="5" width="70" height="20" style="fill: #EECB58;">  </rect>
+                        <text x="275" y="18" font-size="1.5em" fill="#333333" style="text-anchor: start;">Average</text>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -180,10 +186,12 @@
             }
 
             var player_data_width = 400;
+            var radar_chart_width = 200;
             var header_width = 150,
                 header_height = 200;
             var player_title = player['Name'];
             var player_header_url = player['Photo']
+            var player_nation_flag_url = player['Flag']
             var player_info_data = {
                 "weight": player['Weight'],
                 "height": player['Height'],
@@ -244,6 +252,14 @@
                 .attr("font-size", "1.6em")
                 .style("fill", "black");
 
+            player_info
+                .append("image")
+                .attr("referer", "no-referrer|origin|unsafe-url")
+                .attr("href", player_nation_flag_url)
+                .attr("height", 30)
+                .attr("width", 30)
+                .attr("transform", "translate(" + 145 + " ," + -22 + ")");
+
             var player_team_info = d3.select("#player_info")
                 .append("svg")
                 .attr("id", "player_team_info_svg")
@@ -291,7 +307,7 @@
 
             var section_name = "Attack";
             var data_width = 1000,
-                data_height = 150
+                data_height = 130;
 
             for (var section_name in data_label_list) {
                 lower_section_name = section_name.toLowerCase();
@@ -319,7 +335,7 @@
                         return "translate(" + (y * 350) + "," + (x * 60) + ")";
                     });
 
-                svg_data.append("rect")
+                var background_rects = svg_data.append("rect")
                     .data(data_label_list[section_name])
                     .attr("x", 20)
                     .attr("y", 25)
@@ -369,14 +385,18 @@
                         return player_ability[section_name][d];
                     });
 
+                console.log("ability rects:", ability_rects)
+
                 // ability_rects
                 // .transition()
                 // .ease(d3.easeLinear)
                 // .duration(1000)
+                // .delay(1000)
                 // .attr("width", d => {
                 //         return 260 * player_ability[section_name][d] / 100;
                 //     });
             }
+            
         }
     </script>
 
