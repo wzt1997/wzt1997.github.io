@@ -1,0 +1,264 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Lato", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: center;
+}
+
+body,
+html {
+    height: 100%;
+    width: 100%;
+    color: #777;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* Create a Parallax Effect */
+.bgimg-1,
+.bgimg-2,
+.navbarbg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* First image (Logo. Full height) */
+.bgimg-1 {
+    background-image: url('https://www.completesoccerguide.com/wp-content/uploads/2010/03/Dollarphotoclub_62103985.jpg');
+    min-height: 100%;
+}
+
+/* Second image (Portfolio) */
+.bgimg-2 {
+    background-image: url("https://7images.cgames.de/images/gsgp/226/fifa-19-modric-stats_6055306.jpg");
+    filter: grayscale(20%) brightness(.9);
+
+    min-height: 400px;
+}
+
+.navbarbg {
+    background-color: white;
+}
+
+
+
+.w3-wide {
+    letter-spacing: 10px;
+}
+
+.w3-hover-opacity {
+    cursor: pointer;
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1600px) {
+
+    .bgimg-1,
+    .bgimg-2,
+    .bgimg-3 {
+        background-attachment: scroll;
+        min-height: 400px;
+    }
+}
+
+#left {
+    float: left;
+    width: 50%;
+    overflow: hidden;
+}
+
+#right {
+    overflow: hidden;
+}
+
+th {
+    text-align: center;
+}
+
+
+
+td {
+    width: 20%;
+    text-align: center;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+body {
+
+    font-family: monospace;
+    padding: 10px;
+    color: black;
+
+}
+
+#page_bg {
+    background-image: url('../image/football.jpg');
+    background-size: cover;
+    background-color: burlywood;
+    background-blend-mode: multiply;
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -99999;
+    opacity: 0.6;
+}
+
+#content {
+    width: 80%;
+    height: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 400px;
+    background-color: rgba(255, 255, 255, 0.8);
+    -webkit-box-shadow: 0px 0px 49px -4px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 49px -4px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 49px -4px rgba(0, 0, 0, 1);
+    padding: 20px;
+    text-align: center;
+}
+
+div > .menubar > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+div > .menubar > ul li {
+    float: left;
+}
+
+div > .menubar > ul a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+div > .menubar > ul a:hover {
+    background-color: #a57c28;
+}
+
+.footer {
+    text-align: center;
+    /* position: fixed; */
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 20px;
+}
+
+div {
+    padding-bottom: 30px;
+    align: middle;
+}
+
+.container {
+    width: 80%;
+    height: 200px;
+    background: aqua;
+    margin: auto;
+    padding: 10px;
+}
+
+/* ------------------------------- */
+/* Visualisation section */
+/* ------------------------------- */
+
+/* Wrapper for visualisation section */
+#wrapper {
+    display: flex;
+}
+
+#image {
+    max-width: 40%;
+}
+
+/* Left div of visualisation section */
+#left {
+    flex: 0 0 55%;
+    /* background-color: rgba(0,0,0,0.8); */
+}
+
+/*  Left div of visualisation section */
+#right {
+    flex: 1;
+    background-color: beige
+}
+
+.tooltip {
+    font-weight: bold;
+    padding: 0.5rem;
+    border: 1px solid silver;
+    color: #222;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px #a6a6a6;
+    opacity: 0.9;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 60px;
+    pointer-events: none;
+    display: none;
+}
+
+#myNavbar{
+    padding-bottom: 0px !important;
+    background-color: #efefef !important;
+}
+
+.button {
+    border: none;
+    margin: auto;
+    color: white;
+    height: 40px;
+    width: 200px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  .button1 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+  }
+
+  .button1:hover {
+    background-color: #4CAF50;
+    color: white;
+  }
+  

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SoccerGuru</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+
+
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+</head>
+
+<body>
+    <!-- NAVIGATION BAR -->
+    <div class="w3-top">
+        <div class="w3-bar w3-white" id="myNavbar">
+            <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right"
+                href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+                <i class="fa fa-bars"></i>
+            </a>
+            <a href="#home" class="w3-bar-item w3-button" style="background-color: grey;color:white;">HOME</a>
+            <a href="#info" class="w3-bar-item w3-button">Project Info</a>
+            <a href="#data" class="w3-bar-item w3-button">Datasets</a>
+            <a href="#viz" class="w3-bar-item w3-button">Visualization</a>
+            <a href="#design" class="w3-bar-item w3-button">Design Choices</a>
+            <a href="#sketch" class="w3-bar-item w3-button">Sketches</a>
+            <a href="#ref" class="w3-bar-item w3-button">References</a>
+            <a href="#reflection" class="w3-bar-item w3-button">Reflection</a>
+            <a href="#team" class="w3-bar-item w3-button">Team</a>
+        </div>
+    </div>
+
+    <!-- FIRST BG IMAGE / HOME SCREEN -->
+    <div class="bgimg-1 w3-display-containeer w3-opacity-min" id="home">
+        <div class="w3-display-middle" style="white-space:nowrap;">
+            <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity"
+                style="font-family:'Georgia';">
+                <b>SoccerGuru</b>
+                : the professional soccer data analyst by your side
+            </span>
+        </div>
+    </div>
+
+    <!-- SECTION PROJECT INFO   -->
+    <div class="w3-content w3-container w3-padding-64" id="info">
+        <h2 class="w3-center">Project Info</h2>
+        <h3>Background</h3>
+        <p>
+            In 2020, we not only cheered for Bayern Munich’s winning the European Champian’s League but mourned for the
+            unexpected passing away of Maradona. In 2020, we got accustomed to watching ‘silent’ soccer matches with no
+            audience in the stadium. Last year, many tournaments and soccer leagues were postponed due to the epidemic.
+            However, people’s passion for the sport
+            does not fade at all.
+        </p>
+        <p>
+            As the acknowledged most popular sport in the world, soccer has long been playing a significant role in
+            people’s life. Fans and journalists are delighted in asking interesting questions like who will be the best
+            scorer in the Premier League? Which team will Messi transfer to? There are still many colorful and
+            interesting stories to be dug from the statistics. To offer a better insight into the sport, we intend to
+            resort to visualization tools to unmask some intriguing discoveries in the soccer world
+        </p>
+    </div>
+
+    <!-- SECOND BG IMAGE WITH Data TEXT -->
+    <div class="bgimg-2 w3-display-container w3-opacity-min">
+        <div class="w3-display-middle" style="background-color: white;width:40%;height: 50%;opacity: 60%">
+        </div>
+        <div class="w3-display-middle" style="white-space:nowrap;">
+            <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">
+                <b>Inroduction</b>
+            </span>
+        </div>
+    </div>
+    <br />
+
+    <!-- TARGET Audience   -->
+    <div class="w3-content w3-container w3-padding-64" id="audience" style="padding-bottom: 10px!important;">
+        <h2 class="w3-center">Target Audience</h2>
+        <ul>
+            <li>
+                <span><b>Soccer Fans</b></span>
+                <p>
+                    SoccerGuru will be a perfect tool for football fans to understand the statistics in a more
+                    interactive manner to acquire a deeper insight into it
+                </p>
+            </li>
+            <li>
+                <span><b>Soccer Media Journalists</b></span>
+                <p>
+                    Will Arsenal be the team to beat this season? Who will be the Golden Ball of the year?
+                    Try and use SoccerGuru and he will show you the answer
+                </p>
+            </li>
+            <li>
+                <span><b>Club Managers</b></span>
+                <p>
+                    SoccerGuru provides professional solutions for the club managers to make decisions on the signing
+                    plan, operation suggestions, etc.
+                </p>
+            </li>
+        </ul>
+        </p>
+    </div>
+
+    <!-- SECTION DATA   -->
+    <div class="w3-content w3-container w3-padding-64" id="data" style="padding-bottom: 10px!important;">
+        <h2 class="w3-center">Datasets</h2>
+        <p>We decided to analyze FIFA player stats as well as the transfer data and found several helpful datasets on
+            Kaggle and Github.
+            We will mainly focus on the following stats:
+        </p>
+        <!-- <p><img src="Dimensions2.png" style="width: 50%;display: block; margin-left: auto; margin-right: auto;padding-top: 30px;"></p> -->
+
+        <p><span><b>Dataset List:</b></span>
+            <ul>
+                <li>
+                    <span><b><a href="https://www.kaggle.com/bryanb/fifa-player-stats-database">FIFA17 to FIFA21
+                                statistics for each football player</a></b></span>
+                    <p>
+                        This dataset contains personal info,
+                        overall and detailed ratings of more than
+                        17k players in the video game FIFA,
+                        from FIFA17 to FIFA21.
+                    </p>
+                </li>
+                <li>
+                    <span><b> <a href="https://github.com/ewenme/transfers">European football player
+                                transfers</a></b></span>
+                    <p>
+                        This dataset contains information of
+                        football player transfers from 1992/93 to
+                        2020/21 seasons in 9 major football
+                        leagues.
+                    </p>
+                </li>
+                <li>
+                    <span><b> <a
+                                href="https://www.kaggle.com/sarangpurandare/83k-football-players-103-stats-per-season">
+                                Players stats per
+                                season</a></b></span>
+                    <p>
+                        This dataset contains statistics of players
+                        in recent seasons from 100+
+                        tournaments.
+                    </p>
+                </li>
+            </ul>
+        </p>
+    </div>
+
+    <!-- THIRD BG IMAGE BETWEEN INTRODUCTION & VISUALIZATION -->
+    <div class="bgimg-2 w3-display-container w3-opacity-min">
+        <div class="w3-display-middle" style="background-color: white;width:40%;height: 50%;opacity: 60%">
+        </div>
+        <div class="w3-display-middle" style="white-space:nowrap;">
+            <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">
+                <b>Data Visualization</b>
+            </span>
+        </div>
+    </div>
+    <br />
+
+
+    <!-- SECTION VISUALIZATION -->
+    <div class="w3-content w3-container" id="viz" style="padding-bottom: 0">
+        <h2>Visualization</h2>
+
+        <h3 class="w3-center">Player Personal Ability Display</h3>
+        <div>
+            <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
+                <p>
+                    This visualization is designed to show the statistics based on personal capabilities of the soccer
+                    players in 2019.
+                    The data is provided by the dataset 'FIFA17 to FIFA21 statistics for each football player'.
+                    This visualization is implemented by D3 and can be devided for mainly three parts:
+                    <ul>
+                        <li>Firstly, a filter is provided, with which users can select the player they are interested
+                            in.</li>
+                        <li>For the selected player, we display his picture as well as other basic information.
+                            And a radar chart will be generated based on the player's capabilities of six main aspects:
+                            strength, speed, passing, shooting, dribbling and defense.
+                            In addition, we also depict the average level of all players in the radar chart for
+                            comparison.
+                            All the statistics are calculated based on the dataset.
+                        </li>
+                        <li>
+                            At last, we show the detailed statistics of each ability of the player below, which are
+                            categorized into 7 more general classes.
+                        </li>
+                    </ul>
+
+                </p>
+                <div style="width:auto;">
+                    <img src='https://z3.ax1x.com/2021/04/17/c4NOIS.png' style="max-width: 100%; max-height: 100%;">
+                </div>
+                <a href="/player_stats.html"><button class="button button1">Try it
+                    yourself</button></a>
+
+        </div>
+        </br>
+
+        <h3 class="w3-center">Player and Team Statistics Display</h3>
+        <div>
+            <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
+                <p>
+                    This visualization is designed to show the statistics based on the performance of players in
+                    different tournaments from 2017 to 2020.
+                    The data is provided by the dataset 'Players stats per season'.
+                    This visualization is also implemented by D3 and can be devided for mainly three parts:
+                    <ul>
+                        <li>Firstly, a filter is provided, with which users can select the player they are interested
+                            in.</li>
+                        <li>For the selected player, we use a side-by-side bar chart comebined a line chart to
+                            illustrate the performance of a player throught out the years.
+                            If the player has taken taken part in more than one tournament, there will be more than one
+                            bar mark for each year and legends should be generated automatically.
+                            Apart from the bars, we also draw lines to show the change of performance of the players.
+                            What's more, you can select the field of data that you are interested in for visualisation,
+                            such as number of appearances, player raing and etc.
+                        </li>
+                        <li>
+                            Besides, for the player's performance in a specific year, we will draw several pie chart to
+                            illustrate the player performance in more detail.
+                            We are interested in five aspects for pie charts depiction: Shots, GoalPostions,
+                            GoalMethods, Passes and DuelWon.
+                        </li>
+                    </ul>
+
+                </p>
+                <div style="width:auto;">
+                    <img src='https://z3.ax1x.com/2021/04/17/c4UUsI.png' style="max-width: 100%; max-height: 100%;">
+                </div>
+
+                <a href="player_stat_per_season.html"><button class="button button1">Try it
+                    yourself</button></a>
+        </div>
+        </br>
+
+        <h3 class="w3-center">Player Comparison</h3>
+        </br>
+
+        <h3 class="w3-center">Transfer Statistics Display</h3>
+        <div>
+            <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
+                <p>
+                    We use a network graph to illustrate the transfer relationship between different soccer teams in the top-5 European soccer leagues.
+                    Each node in the network graph represents a team and each link represents the transfers in the selected year between the source node and the target node.
+                    Users can choose the year to get the view of European transfer market in different years.
+
+                </p>
+                <div style="width:auto;">
+                    <img src='https://z3.ax1x.com/2021/04/17/c5row9.png' style="max-width: 100%; max-height: 100%;">
+                </div>
+
+                <a href="transfer_network.html"><button class="button button1">Try it
+                    yourself</button></a>
+        </div>
+        </br>
+
+        <h3 class="w3-center">Relationship between Players and Teams</h3>
+        </br>
+
+    </div>
+
+    <br />
+    <!-- SECTION DESIGN -->
+    <div class="w3-content w3-container w3-padding-64" id="design" style="padding-top: 10px!important">
+        <h2 class="w3-center">Design Choices</h2>
+        <p>We first had to analyze and transform the data. It quickly became clear that the quality of the data left a
+            lot to be desired.
+            With the cleansed data, we first looked at how we could achieve our design goals described above.</p>
+        <br />
+
+        <h3>Choosing the right visualization</h3>
+        <p>We made different sketches and realized that the most understandable and clear presentation was a map that
+            assigned different colors to countries given specific data ranges. Nevertheless, we had to keep in mind that
+            there
+            is only a certain number of colours that can be easily distinguished. Therefore, as soon as you move a mouse
+            over the countries, they get a contour that indicates the exact size of the country. In addition, we decided
+            to use a tooltip which, for example, shows the exact average rating of the players in a country.</p>
+        <br />
+
+        <h3>Foundations Visual Design</h3>
+        <p>Our initial goal was to visualise a quick overview of the FIFA player ratings for each country. Kagle's data
+            set gave us information about the individual players and their origins. With this information we could
+            concentrate ourselves on giving simple and quick information on which countries offer better players
+            (alongside other possible criterias) rather than overflow the visualization with additional data.</p>
+        <br />
+
+        <h3>Fundamental Principals of Analytical Design </h3>
+        <p>Our visualization is dividede into two parts: One for the purposes of brushing the data, the other for the
+            actual visualization and fast adjustment of a given criteria. The dimensions implemented require the
+            following:</p>
+        <ul>
+            <li>
+                Longitude & latitude to draw each individual country
+            </li>
+            <li>
+                Color ratio to display differences in selected value
+            </li>
+            <li>
+                Tooltip to allow for detail on demand & "Integration of Evidence"
+            </li>
+        </ul>
+
+        <p>We have implemented several brushing & filter criterias. Without any settings done, the first overview will
+            be the overal mean player rating. The color scale ranges from white (no data available) to a dark orange
+            (darker = higher average). The color gradient is based on the data selected for display, which can be set
+            just above the map itself. We set 8 different steps in this gradient since we thought that this offered the
+            best deal out of seeing to little to too much differences.</p>
+        <br />
+
+        <h3>Data-Ink Ratio</h3>
+        <p>To maximize the efficiency of our visualization, we took good care of how big our visualizations are, how
+            much space each individual information needs (e.g. our tooltip) and how much data is really needed. </p>
+        <p>“A large share of ink on a graphic should present data-information, the ink changing as the data change.
+            Data-ink is the non-erasable core of a graphic, the non-redundant ink arranged in response to variation in
+            the numbers represented.” Tufte, 1983</p>
+        <p>When we designed our map we held the data-ink ratio as high as possible.</p>
+        <br />
+
+        <h3>Human Perception</h3>
+        <p>Whilst programming this website, we laid a big importance on the flow whilst reading and scrolling through
+            the page. To enhance the engagement and visual attractiveness we settled for a "cool" website template,
+            which suited our topic. </p>
+        <p>Starting with a top navigation bar, clear instructions and informations about our data, and then followed by
+            our visualization, we found a good approach on how the user is being guided through our project.The
+            transition of actions is natural, causal and hierarchical.The visual changes, when filters are applied,
+            further increase the interactivity.</p>
+        <br />
+
+        <h3>Interaction Concept</h3>
+        <p>Our visualizations consist of brushing and filtering. As soon as the desired filters are being selected and
+            the "Calculate" button is clicked, the data will be usable for further brushing. Once a country gets hovered
+            over (brushing), the country gets highlighted and a tooltip appears with more information. As soon as the
+            visitor changes the mouse position to another country, the tooltip and highlighting changes to the given
+            country.</p>
+
+    </div>
+
+    <!-- SECTION SKETCH -->
+    <div class="w3-content w3-container w3-padding-64" id="sketch" style="padding-top: 10px!important">
+        <h2 class="w3-center">Sketches and future ideas</h2>
+        <p>When we transformed the data, we had different ideas about how best to visualize the data.
+            For a better understanding we have integrated some of these sketches into our website.</p>
+        <div>
+            <img src="Sketch_Spider_Chart.png" style="width: 35%;display: inline;padding-top: 30px;">
+            <img src="Sketch_Skills.png" style="width: 30%;display: inline;padding-top: 30px;">
+            <img src="Sketch_Violin.png" style="width: 30%;display: inline;padding-top: 30px;">
+        </div>
+        <p>Due to the given time limit of this module, we didn't have the chance to visualize all of our conceptual
+            work. However there are some neat implementations possible, as soon as a country is selected. Alternatively,
+            we could have used more dimensions from the dataset provided to develop visualizations for indivual player
+            or country averages based on certain skills, as shown above.</p>
+        <div>
+            <img src="Sketch_Field.png" style="width: 45%;display: inline;padding-top: 30px;">
+            <img src="Sketch_Comparison.png" style="width: 45%;display: inline;padding-top: 30px;">
+        </div>
+    </div>
+
+    <!-- SECTION DESIGN -->
+    <div class="w3-content w3-container w3-padding-64" id="ref" style="padding-top: 10px!important">
+        <h2 class="w3-center">References</h2>
+        <p>To develop our d3 visualization we used different sources to build our knowledge:</p>
+        <u>
+            <li>https://www.tutorialsteacher.com/d3js</li>
+            <li>https://www.d3-graph-gallery.com/index.html</li>
+
+        </u>
+        <p>The general template of our website was contributed by Anja Zimmermann on <a
+                href="https://elearning.hslu.ch/ilias/ilias.php?ref_id=4171650&cmdClass=ilobjforumgui&thr_pk=30855&cmd=viewThread&cmdNode=xu:ok&baseClass=ilrepositorygui">Ilias</a>.
+        </p>
+        <p>As stated before, our dataset was retrieved from Kagle: <a
+                href="https://www.kaggle.com/karangadiya/fifa19">Link to dataset</a></p>
+        <p>We worked in close collaboration with the group of Maximilian Becker & Philippe Schwarzer - Some similarities
+            might be discoverable :-)</p>
+
+    </div>
+
+    <!-- SECTION REFLECTION -->
+    <div class="w3-content w3-container w3-padding-64" id="reflection" style="padding-top: 10px!important">
+        <h2 class="w3-center">Reflection</h2>
+        <h4>What did we learn?</h4>
+        <ul>
+            <li>
+                How to search for an appropriat dataset & how important a clean data baseline is.
+            </li>
+            <li>
+                How to develop visualisations with d3 from the start to the implementation.
+            </li>
+            <li>
+                What the limits are and how time limits constrain our designing process.
+            </li>
+        </ul>
+        <h4>What would we do better next time?</h4>
+        <ul>
+            <li>
+                Focus on one or two visualisations rather than thinking in many approaches.
+            </li>
+            <li>
+                Create a working prototype faster to further develop ideas.
+            </li>
+            <li>
+                Spend more time learning the d3 library, since some of our approaches could have been developed way
+                easier.
+            </li>
+        </ul>
+        <p>All in all, we learned a lot throughout the projects duration. Both of has have never used d3 before and we
+            were inspired, since we didn't know that creating graphs using only JS, HTML & CSS would be that simple,
+            given the time constraint.</p>
+    </div>
+
+    <!-- SECTION Team -->
+    <div class="w3-content w3-container w3-padding-64" id="team" style="padding-top: 10px!important">
+        <h2 class="w3-center">Team</h2>
+        <div class="w3-center">
+            <h3 style="display: inline">Wang Zhitao( A0224848W )</h3>
+            <p style="display: inline"> School of Computing, NUS </p>
+        </div>
+        <div class="w3-center">
+            <h3 style="display: inline">Luo Jihao( A0225530R )</h3>
+            <p style="display: inline">School of Computing, NUS</p>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
