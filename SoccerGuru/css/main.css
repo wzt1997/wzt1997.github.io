@@ -106,13 +106,13 @@ body {
     /* font-family: monospace; */
     padding: 10px;
     color: black;
-    font-size: 1.1em;
+    font-size: 16px;
 
 }
 
 #coverTitle {
     font-family:'Georgia';
-    font-size: 3em;
+    font-size: 30px;
     word-spacing:5px;
 }
 
