@@ -417,6 +417,8 @@
             .attr('transform', 'translate(' + chart_left_padding + ',' + ( margin.top + line_chart_height / 3 ) + ')')
             .call(yAxis);
 
+            console.log("axis data:", data)
+
             axisGroup
             .append('text')
             .attr('y', 45)

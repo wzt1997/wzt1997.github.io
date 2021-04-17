@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Train Network</title>
+    <link rel="stylesheet" href="css/d3tip.css">
+    <link rel="stylesheet" href="js/library/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="js/library/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/library/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/library/d3-tip.js"></script>
+</head>
+
+<body style="text-align: center">
+    <div style="display: flex; background-color: #f7f7f7; ">
+        <div id="network" style="margin:auto;">
+            <div class="dropdown" style="text-align: left; font-size: 1.5em;">
+                Please select your year:
+                <select class="combobox" id="year_list" style="cursor:pointer;" size="1"
+                    onchange="yearChange()">
+                </select>
+            </div>
+            <svg width="1600" height="900" id="mainsvg" class="svgs"></svg>
+        </div>
+    </div>
+
+    <script>
+        let svg_main = d3.select('#mainsvg');
+
+        var width = svg_main.attr('width'),
+            height = svg_main.attr('height');
+        const margin = {
+            top: 100,
+            right: 120,
+            bottom: 0,
+            left: 120
+        };
+        const inner_width = width - margin.left - margin.right;
+        const inner_height = height - margin.top - margin.bottom;
+
+        let nodes, links;
+        let circles, lines;
+        let color;
+        let simulation;
+        let city_mapping;
+        let city_size, min_city_weight, max_city_weight;
+        let links_weights, min_link_weight, max_link_weight;
+
+        let cur_node;
+        let cur_year = '1992';
+        let all_year_data;
+
+        const main_tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .html(function (d) {
+                id = d.index;
+                return "There were " + city_size[id] + " transfers from <b>" + city_mapping[d.index] +
+                    "in the summer of " + cur_year;
+            });
+        svg_main.call(main_tip);
+
+        function isConnected(id1, id2) {
+            return Object.keys(links_weights).indexOf(id1 + '-' + id2) > -1 ||
+                Object.keys(links_weights).indexOf(id2 + '-' + id1) > -1;
+        }
+
+        function dragstarted(d) {
+            if (!d3.event.active) {
+                simulation.alphaTarget(0.01).restart();
+            }
+
+            d3.select(this)
+                //.raise()
+                .attr("stroke", "black")
+                .attr("stroke-width", 3)
+                .attr("cx", d.x)
+                .attr("cy", d.y);
+            //simulation.stop();
+
+            station_id = 'station_name_' + this['id'].split('_')[1]
+            d3.select('#' + station_id)
+                .attr("fill", "black")
+                .attr("x", d.x)
+                .attr("y", d.y);
+
+            var neighbours = [];
+            for (let i = 0; i < city_mapping.length; i++) {
+                if (d.index != i && !isConnected(d.index, i)) {
+                    d3.select("#circle_" + i)
+                        .attr("opacity", 0.1);
+                    d3.select("#station_name_" + i)
+                        .attr("opacity", 0.1);
+                }
+            }
+
+            for (let i = 0; i < links.length; i++) {
+                link = links[i];
+                if (d.index != link.source.index && d.index != link.target.index) {
+                    line_id = link.source.index + '-' + link.target.index;
+                    d3.select("#line_" + line_id)
+                        .attr("opacity", 0.1);
+                }
+            }
+        }
+
+        function dragged(d) {
+            d3.select(this)
+                .attr("cx", d.x = d3.event.x)
+                .attr("cy", d.y = d3.event.y);
+            ticked();
+        }
+
+        function dragended(d) {
+            if (!d3.event.active) {
+                simulation.alphaTarget(0);
+            }
+            d3.select(this)
+                .attr("stroke", null)
+                .attr("cx", null)
+                .attr("cy", null);
+
+            station_id = 'station_name_' + this['id'].split('_')[1]
+            d3.select('#' + station_id)
+                .attr("fill", 'white')
+                .attr("x", d.x)
+                .attr("y", d.y);
+
+            for (let i = 0; i < city_mapping.length; i++) {
+                if (d.index != i && !isConnected(d.index, i)) {
+                    d3.select("#circle_" + i)
+                        .attr("opacity", 1);
+                    d3.select("#station_name_" + i)
+                        .attr("opacity", 1);
+                }
+            }
+
+            d3.selectAll('line')
+                .attr("opacity", 0.4);
+        }
+
+        // update postion
+        function ticked() {
+            lines
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+
+            circles
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y);
+
+            texts
+                .attr('x', d => d.x)
+                .attr('y', d => d.y);
+        }
+
+        const drag = d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended);
+
+        const render_init = function () { //initialization
+            // mapping the weights of stations to the radius of the circles
+            const city_weight_scale = d3.scaleLinear()
+                .domain([min_city_weight, max_city_weight])
+                .range([8, 50]);
+
+            const link_weight_scale = d3.scaleLinear()
+                .domain([min_link_weight, max_link_weight])
+                .range([0.5, 3]);
+
+            const station_name_scale = d3.scaleLinear()
+                .domain([5, 20])
+                .range([0.2, 0.5])
+
+            svg_main.append("text")
+                .attr("transform", "translate(" + (inner_width / 2) + "," + 50 + ")")
+                .attr('font-size', '1.7em')
+                .style("text-anchor", "middle")
+                .text("Transfer between the football clubs of the top five European soccer leagues in " + cur_year);
+
+            svg_main.append("text")
+                .attr("transform", "translate(" + (inner_width / 2) + "," + (inner_height + 50) + ")")
+                .attr('font-size', '1.3em')
+                .style("text-anchor", "middle")
+                .text("Drag the team circles to see their transfer partners");
+
+            lines = svg_main.selectAll('line')
+                .data(links)
+                .enter()
+                .append('line')
+                .attr('stroke', 'black')
+                .attr('opacity', 0.4)
+                .attr('id', d => "line_" + d.source + '-' + d.target)
+                //.attr('stroke-width', 1.2);
+                .attr('stroke-width', (d) => {
+                    return link_weight_scale(links_weights[d.source + '-' + d.target]);
+                });
+
+            // lines
+            // .on('mouseover', function(d){
+            //     d3.select(this)
+            //     .attr("opacity", 1)
+            //     .attr("stroke","black")
+            //     .attr('stroke-width', (d)=>{
+            //         return 1.5 * link_weight_scale(links_weights[d.source.index +'-'+d.target.index]);
+            //      })
+            //     // line_tip.show(d);
+            // })
+            // .on('mouseout', function(d){
+            //     d3.select(this)
+            //     .attr("opacity", 0.8)
+            //     .attr("stroke","black")
+            //     .attr('stroke-width', (d)=>{
+            //         return link_weight_scale(links_weights[d.source.index +'-'+d.target.index]);
+            //      });
+            //     // line_tip.hide(d);
+            // })
+
+            var circle_g = svg_main.selectAll('g')
+                .data(nodes)
+                .enter()
+                .append("g")
+
+            circles = circle_g
+                .append('circle')
+                .attr('r', d => city_weight_scale(city_size[d.index]))
+                .attr('fill', d => color(d.index))
+                .attr('id', d => "circle_" + d.index)
+                .attr("stroke", 'black')
+                .attr('stroke-width', 2)
+                .style('cursor', 'pointer')
+                .call(drag)
+
+            circles
+                .on('mouseover', function (d) {
+                    d3.select(this)
+                        .attr("opacity", 0.9)
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 4);
+                    main_tip.show(d);
+
+                    d3.select("#station_name_" + d.index)
+                        .attr('fill', 'black')
+                })
+                .on('mouseout', function (d) {
+                    d3.select(this)
+                        .attr("opacity", 1)
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 2);
+                    main_tip.hide(d);
+
+                    d3.select("#station_name_" + d.index)
+                        .attr("fill", 'white')
+                })
+
+            texts = circle_g
+                .append('text')
+                .attr('id', d => "station_name_" + d.index)
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'white')
+                .attr('font-size', d => {
+                    let radius = city_weight_scale(city_size[d.index])
+                    if (radius < 10) {
+                        return '0'
+                    } else {
+                        return station_name_scale(radius) + 'em'
+                    }
+                })
+                .text((d) => {
+                    return city_mapping[d.index];
+                })
+            // .call(drag)
+
+            // circles
+            // .append('text')
+            // .attr('transform', function(d, i){
+            //     console.log(d);
+            //     var x = d.x;
+            //     var y = d.y;
+            //     console.log(d.x, d.y)
+            //     return 'translate(' + x + ', ' + y + ')';
+            // })
+            // .attr('text-anchor', 'middle')
+            // .attr('font-size', '1.1em')
+            // .text((d)=>{
+            //     return city_mapping[d.index];
+            // });
+
+            //draw legend
+            // var legend = svg_main.selectAll(".legend")
+            //         .data(city_mapping)
+            //         .enter().append("g")
+            //         .attr("class", "legend")
+            //         .attr("transform", function(d, i) { 
+            //             return "translate(" + (inner_width + 70) + "," + (i * 25 + 100) + ")"; 
+            //         });
+
+            // // draw legend colored rectangles
+            // legend.append("rect")
+            //     .data(city_mapping) 
+            //     .attr("x", 0)
+            //     .attr("y", 0)
+            //     .attr("width", 30)
+            //     .attr("height", 20)
+            //     .style("fill", function (d,i) { 
+            //         return color(i);
+            //     });
+
+            // // draw legend text
+            // legend.append("text")
+            //     .data(city_mapping) 
+            //     .attr('class', 'legend_text')
+            //     .attr("x", 40)
+            //     .attr("y", 9)
+            //     .attr("dy", ".5em")
+            //     .attr("fill", 'black')
+            //     .style("text-anchor", "start")
+            //     .text(function (d,i) {return d;}); 
+
+        }
+
+        function update_network(data) {
+            
+            console.log('data:', data)
+            links = data.links;
+            city_mapping = data.node_list;
+            city_size = data.node_size;
+            links_weights = data.link_weights;
+            nodes = []
+            lines = []
+
+            let arr = Object.values(links_weights);
+            min_link_weight = Math.min(...arr);
+            max_link_weight = Math.max(...arr);
+
+            min_city_weight = Math.min.apply(null, city_size);
+            max_city_weight = Math.max.apply(null, city_size);
+
+            // create empty list
+            for (let i = 0; i < data['#nodes']; i++) {
+                nodes.push({
+                    "index": i
+                });
+            }
+            color = d3.scaleDiverging(d3.interpolateCubehelixDefault)
+                .domain([0, nodes.length])
+
+            svg_main.selectAll('line').remove();
+            svg_main.selectAll('g').remove();
+            svg_main.selectAll('text').remove();
+
+            render_init();
+
+            //force simulation
+            simulation = d3.forceSimulation(nodes)
+                .force('manyBody', d3.forceManyBody().strength(-50)) //name of force, 
+                .force('center', d3.forceCenter(inner_width / 2, inner_height / 2 + 50))
+                .force("link", d3.forceLink(links).strength(0.1).distance(200))
+                .on('tick', ticked); //tick时间对应ticked处理函数
+        }
+
+        function yearChange(){
+            let year_list = document.getElementById("year_list");
+            let index = year_list.selectedIndex;
+            console.log(year_list[index].value)
+
+            cur_year = year_list[index].value;
+            window.sessionStorage.setItem('year', cur_year)
+            //update_network(all_year_data[cur_year])
+            location.reload();
+        }
+
+        // the data is from http://networkrepository.com/socfb-Caltech36.php; 
+        d3.json('./data/transfer_data/node_data_year.json').then(data => {
+            all_year_data = data;
+            if( window.sessionStorage.getItem('year') != null ){
+                cur_year = window.sessionStorage.getItem('year');
+            }
+            else{
+                cur_year = '1992';
+                window.sessionStorage.setItem('year', cur_year)
+            }
+
+
+            //update player list
+            str_list = ""
+            for( let i = 1992; i <= 2019; i++ ){
+                if( i.toString() == cur_year ){
+                    str_list += '<option value="' + i.toString() + '" id="year_' + i.toString() +
+                    '" selected="selected"><a href="">' + i.toString() + '</a></option>'
+                }
+                else{
+                    str_list += '<option value="' + i.toString() + '" id="year_' + i.toString() +
+                    '"><a href="">' + i.toString() + '</a></option>'
+                }
+                
+            }
+            $('#year_list').append(str_list);
+            update_network(all_year_data[cur_year]);
+        })
+    </script>
+</body>
+
+</html>

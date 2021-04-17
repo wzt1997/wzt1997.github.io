@@ -1,6 +1,6 @@
 {
     "#nodes":20,
-    "#links":55,
+    "#links":55, 
     "links":[
         {
             "source":0,

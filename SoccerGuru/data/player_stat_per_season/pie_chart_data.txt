@@ -1,0 +1,35 @@
+总射门数：'totalShots',
+ 'shotsOnTarget',
+ 'shotsOffTarget',
+
+
+进球位置： 'goalsFromInsideTheBox',
+ 'goalsFromOutsideTheBox',
+
+进球部位： 'headedGoals',
+ 'leftFootGoals',
+ 'rightFootGoals',
+
+传球数： 'accuratePasses',
+ 'inaccuratePasses',
+ 'totalPasses',
+
+
+抢断成功：
+'aerialDuelsWon',
+'groundDuelsWon',
+
+
+'totalShots',
+'shotsOnTarget',
+'shotsOffTarget',
+'goalsFromInsideTheBox',
+'goalsFromOutsideTheBox',
+'headedGoals',
+'leftFootGoals',
+'rightFootGoals',
+'accuratePasses',
+'inaccuratePasses',
+'totalPasses',
+'aerialDuelsWon',
+'groundDuelsWon'

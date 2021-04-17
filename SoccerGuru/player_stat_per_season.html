@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<meta name="referrer" content="no-referrer" />
+<html>
+
+<head>
+    <title>Player Statistics Display</title>
+    <link rel="stylesheet" href="css/d3tip.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/d3tip.css">
+    <link rel="stylesheet" href="js/library/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="js/library/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/library/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/d3.min.js"></script>
+    <script src="js/library/d3-tip.js"></script>
+    <script src="js/library/radarChart/radarChart.js"></script>
+</head>
+
+<body>
+    <!--bootstrap 栅格式布局-->
+    <!--bootstrap 栅格式布局-->
+    <div class="container" style="background-color: #f7f7f7;">
+        <div class="row border_setting">
+            <div class="col-lg-6">
+                <div class="dropdown" style="text-align: left; font-size: 1.5em;">
+                    Please select your player:
+                    <select class="combobox" id="player_list" style="cursor:pointer;" size="1"
+                        onchange="playerChange()">
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6" style=" text-align: right; font-size: 2em;">
+                Statistic Detail
+            </div>
+        </div>
+
+        <div class="row border_setting">
+            <div class="row" style="margin-left: 10px; text-align: left; font-size: 1.6em;"> Statistics </div>
+            <div class="container" id="bar_chart" width="100%">
+                <div class="row col-lg-9">
+                    <svg id="bar_chart_svg" width="100%" height="500"></svg>
+                </div>
+                <div class="row col-lg-3">
+                    <div class="row">
+                        <div class="dropdown" style="text-align: left; font-size: 1.5em;">
+                            Select the statistic field:
+                            <select class="combobox" id="stat_list" style="cursor:pointer;" size="1"
+                                onchange="statChange()">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <svg id="legend_svg" width="100%" height="100%"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row border_setting">
+            <div style="margin-top: 10px;">
+                <div class="row col-lg-9" style="margin-left: 10px; text-align: left; font-size: 1.6em;">
+                    Pie Charts
+                </div>
+                <div class="row col-lg-3">
+                    <div class="dropdown" style="text-align: left; font-size: 1.5em;">
+                        Select year:
+                        <select class="combobox" id="year_list" style="cursor:pointer;" size="1"
+                            onchange="yearChange()">
+                        </select>
+                    </div>
+                </div>
+                <div class="container" id="pie_chart_container" width="100%">
+                    <div id="pie_charts">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        const margin = {
+            top: 80,
+            right: 50,
+            bottom: 50,
+            left: 60
+        };
+
+        let player_data = {};
+        let pie_data = {};
+        let player_name_list = [];
+        let stat_name_list = ['appearances', 'assists', 'rating', 'clearances', 'directRedCards', 'dispossessed',
+            'fouls',
+            'goals', 'interceptions', 'keyPasses', 'minutesPlayed', 'shotsOffTarget', 'shotsOnTarget', 'tackles',
+            'totalPasses', 'totalShots', 'wasFouled'
+        ];
+        let player_num;
+
+        let cur_player_name = "Adam Lallana";
+        let cur_stat_name = "appearances";
+        let cur_year = 2017;
+
+        let svg_width = $("#bar_chart_svg").width(),
+            svg_height = $("#bar_chart_svg").height();
+        let innerwidth = svg_width - margin.left - margin.right;
+        let innerheight = svg_height - margin.top - margin.bottom;
+    </script>
+
+    <script type="text/javascript">
+        function playerChange() {
+            let my_player_list = document.getElementById("player_list");
+            let index = my_player_list.selectedIndex;
+            console.log(my_player_list[index].value)
+
+            cur_player_name = my_player_list[index].value
+            update_bar_chart();
+            update_pie_chart();
+
+        }
+
+        function statChange() {
+            let stat_list = document.getElementById("stat_list");
+            let index = stat_list.selectedIndex;
+            console.log(stat_list[index].value)
+
+            cur_stat_name = stat_list[index].value
+            update_bar_chart();
+
+        }
+
+        function yearChange() {
+            let year_list = document.getElementById("year_list");
+            let index = year_list.selectedIndex;
+            console.log(year_list[index].value);
+
+            cur_year = year_list[index].value
+            update_pie_chart();
+        }
+    </script>
+
+    <script type="text/javascript">
+        function get_pie_title_index(x) {
+            if (x <= 1) return 0;
+            else if (x <= 3) return 1;
+            else if (x <= 6) return 2;
+            else if (x <= 8) return 3;
+            return 4;
+        }
+
+        function update_pie_chart() {
+            const pie_chart_titles = ['Shots', 'GoalPositions', 'GoalMethod', 'Passes', 'DuelWon']
+            const pie_margin = {
+                top: 30,
+                right: 30,
+                bottom: 30,
+                left: 30
+            };
+            const pie_chart_label_mapping = [
+                'shotsOnTarget',
+                'shotsOffTarget',
+                'goalsFromInsideTheBox',
+                'goalsFromOutsideTheBox',
+                'headedGoals',
+                'leftFootGoals',
+                'rightFootGoals',
+                'accuratePasses',
+                'inaccuratePasses',
+                'aerialDuelsWon',
+                'groundDuelsWon'
+            ];
+            let player = pie_data[cur_player_name];
+            let cur_pie_data = player[cur_year];
+            console.log("cur_pie_data:", cur_pie_data)
+
+            let year_list = [];
+            for (let year in player) {
+                year_list.push(parseInt(year));
+            }
+            console.log("year list:", year_list);
+
+            // ========== update year list =======================
+            $('#year_list').empty();
+            let str_list = ""
+            year_list.forEach((name, index) => {
+                if (name != cur_year) {
+                    str_list += '<option value="' + name + '" id="year_' + name +
+                        '"><a href="">' + name + '</a></option>'
+                } else {
+                    str_list += '<option value="' + name + '" id="year_' + name +
+                        '" selected="selected"><a href="">' + name + '</a></option>'
+                }
+            });
+            $('#year_list').append(str_list);
+
+            // ========== add svg elements based on the pie data ===================
+            $("#pie_charts").empty();
+            let store_draw_pie_data = {};
+            for (let i = 0; i < 5; i++) {
+                let tmp_data = cur_pie_data[i],
+                    sum = 0;
+                tmp_data.forEach(d => {
+                    sum += d['y'];
+                })
+
+                // ===================== add a svg if there is data ======================
+                if (sum > 0) {
+                    //update stat list
+                    str = '<div class="row col-lg-4"><svg id="pie_chart_' + i +
+                        '" width="100%" height="300px"></svg></div>';
+                    $('#pie_charts').append(str);
+                    console.log("tmp_data:", tmp_data)
+
+                    let svg = d3.select("#pie_chart_" + i);
+                    const pie_width = $("#pie_chart_" + i).width(),
+                        pie_height = $("#pie_chart_" + i).height();
+                    const pie_inner_width = pie_width - pie_margin.left - pie_margin.right,
+                        pie_inner_height = pie_height - pie_margin.bottom - pie_margin.top;
+
+                    const pie_tip = d3.tip()
+                        .attr('class', 'd3-tip')
+                        .html(function (d) {
+                            let tmp_draw_pie_data = store_draw_pie_data[pie_chart_titles[
+                                get_pie_title_index(pie_chart_label_mapping.indexOf(d.data.x))
+                            ]];
+
+                            let percent = Number(d.data.y) /
+                                d3.sum(tmp_draw_pie_data, function (d) {
+                                    return d.data.y;
+                                }) * 100;
+                            let str = percent.toFixed(1) + '%' + " of the " + pie_chart_titles[i] + " from " +
+                                cur_player_name;
+                            str += "</br>are " + d.data.x + " on " + cur_year;
+                            return str;
+                        });
+                    svg.call(pie_tip);
+
+                    const pie = d3.pie()
+                        .value(d => d.y); //.sort(null);
+                    draw_pie_data = pie(tmp_data); //tranfrom origin data to pie data
+                    store_draw_pie_data[pie_chart_titles[i]] =
+                        draw_pie_data; //store the draw pie data for each pie chart
+
+                    let radius = (pie_inner_width) * 0.65 / 2;
+                    const arc = d3.arc()
+                        .innerRadius(0)
+                        .outerRadius(radius);
+
+                    const text_distance_scale = d3.scaleLinear()
+                        .domain([0, 2 * Math.PI])
+                        .range([2.5, 2.5]);
+
+                    const pie_color = d3.scaleDiverging(d3.interpolateRdGy)
+                        .domain([0, tmp_data.length])
+
+                    // ========= add pie title =================
+                    let text = svg
+                        .append("text")
+                        .attr("transform",
+                            `translate(${pie_inner_width / 2 + pie_margin.left}, ${pie_margin.top})`
+                        )
+                        .attr('font-size', '1.6em')
+                        .style("text-anchor", "middle")
+                        .text(pie_chart_titles[i]);
+
+                    // ========= add pie chart =================
+                    svg.selectAll('g').remove();
+                    let arcs = svg
+                        .selectAll('g')
+                        .data(draw_pie_data)
+                        .enter()
+                        .append('g')
+                        .attr("transform",
+                            `translate(${pie_inner_width / 2 + pie_margin.left}, ${pie_inner_height / 2 + pie_margin.top})`
+                        );
+
+                    arcs
+                        .append("path")
+                        .attr("fill", d => {
+                            return pie_color(d.index);
+                        })
+                        .attr("d", d => arc(d))
+                        .style('cursor', 'pointer')
+
+                    // =========== add pie text =================
+                    arcs
+                        .append('text')
+                        .attr('transform', function (d, i) {
+                            let x = arc.centroid(d)[0] * 1.3;
+                            let y = arc.centroid(d)[1] * 1.3;
+                            return 'translate(' + x + ', ' + y + ')';
+                        })
+                        .attr('text-anchor', 'middle')
+                        .attr('font-size', '1.2em')
+                        .style('fill', 'white')
+                        .text((d) => {
+                            let percent = Number(d.data.y) / d3.sum(draw_pie_data, function (d) {
+                                return d.data.y;
+                            }) * 100;
+                            return Math.abs(d.startAngle - d.endAngle) > 0.15 ? percent.toFixed(1) + '%' : null;
+                        });
+
+                    // ======================== add legends =========================
+                    let legend = svg
+                        .selectAll(".legend")
+                        .data(tmp_data)
+                        .enter()
+                        .append("g")
+                        .attr("class", "legend")
+                        .attr("transform", function (d, i) {
+                            if (i <= 1) {
+                                return "translate(" + (pie_margin.left + 20) + "," + (pie_inner_height + i * 25 +
+                                    10) + ")";
+                            } else {
+                                return "translate(" + (pie_margin.left + 204) + "," + (pie_inner_height + 10) + ")";
+                            }
+
+                        });
+
+                    // draw legend colored rectangles
+                    legend.append("rect")
+                        .data(tmp_data)
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("width", 40)
+                        .attr("height", 20)
+                        .style("fill", function (d, i) {
+                            if (tmp_data.length > 2) {
+                                return pie_color((i + 1) % tmp_data.length)
+                            } else {
+                                return pie_color(i);
+                            }
+                        });
+
+                    // draw legend text
+                    legend.append("text")
+                        .data(tmp_data)
+                        .attr("class", "legend_text")
+                        .attr("x", 50)
+                        .attr("y", 10)
+                        .attr("dy", ".2em")
+                        .attr("fill", '#333333')
+                        .style("font-size", "1.2em")
+                        .style("text-anchor", "start")
+                        .text(d => d.x);
+
+                    // ========== add mouseover event ==============
+                    arcs
+                        .on('mouseover', function (d) {
+                            d3.select(this)
+                                .attr("opacity", 0.9)
+                                .attr("stroke", "white")
+                                .attr("stroke-width", 1.5);
+                            pie_tip.show(d);
+                        })
+                        .on('mouseout', function (d) {
+                            d3.select(this)
+                                .attr("opacity", 1)
+                                .attr("stroke", null)
+                            pie_tip.hide(d);
+                        })
+                }
+                console.log(store_draw_pie_data)
+            }
+
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        function update_bar_chart() {
+            let svg = d3.select("#bar_chart_svg");
+            let legend_svg = d3.select("#legend_svg");
+            let player = player_data[cur_player_name];
+
+            let data = {}
+            let max_data = 0,
+                min_data = 10000,
+                start_min; //start min is the y value at the original point
+            let tourna_num = 0;
+            let tournament_list = [];
+            for (let tourna in player) {
+
+                data[tourna] = []
+                let yearFlag = [false, false, false, false]
+                tournament_list.push(tourna);
+                for (let row in player[tourna]) {
+                    data[tourna].push({
+                        'value': player[tourna][row][cur_stat_name],
+                        'year': player[tourna][row]['year'],
+                        'tourna': tourna
+                    })
+                    max_data = Math.max(max_data, player[tourna][row][cur_stat_name])
+                    min_data = Math.min(min_data, player[tourna][row][cur_stat_name])
+                    yearFlag[player[tourna][row]['year'] - 2017] = true;
+                }
+
+                // for( let i = 0; i < 4; i ++){
+                //     if( !yearFlag[i] ){
+                //         data[tourna].push({
+                //         'value': min_data,
+                //         'year': i + 2017,
+                //         'tourna': tourna
+                //     })
+                //     }
+                // }
+
+            }
+            tourna_num = Object.keys(data).length
+            start_min = min_data - (max_data - min_data) / 5;
+
+            //============define the color ======================
+            const color = d3.scaleDiverging(d3.interpolateSpectral)
+                .domain([0, tourna_num])
+
+            // =============define the tool-tip ==============================
+            const stat_tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .html(function (d) {
+                    str = cur_player_name + " had " + d['value'] + " " + cur_stat_name + " on " + d['year'];
+                    str += "</br>";
+                    str += "in the " + d['tourna'] + " games";
+                    return str;
+                });
+            svg.call(stat_tip);
+
+            // console.log("data:", data)
+            // console.log("min_data:", min_data, " max_data:", max_data, "start_min:", start_min)
+            // console.log("number of tournaments:", tourna_num)
+            const dx = [
+                [0, 0, 0, 0],
+                [-10, 0, 0, 0],
+                [-30, 5, 0, 0],
+                [-45, -10, 25, 0],
+                [-50, -15, 20, 55]
+            ];
+
+            svg.selectAll("text").remove();
+            let title = svg.append("text")
+                .attr("transform", "translate(" + (innerwidth / 2 + margin.left + 50) + "," + -10 + ")")
+                .style('font-size', '1.6em')
+                .style("text-anchor", "middle")
+
+            strs = ["Change of " + cur_stat_name, " of " + cur_player_name + " overtime"];
+            title.selectAll('tspan')
+                .data(strs)
+                .enter()
+                .append("tspan")
+                .attr("x", title.attr("x") - 50)
+                .attr("dy", "1.2em")
+                .text(function (d) {
+                    return d;
+                });
+
+            let formatter = d3.format("0")
+
+            const xAxisScale = d3.scaleLinear()
+                .domain([2016.5, 2020.5])
+                .range([0, innerwidth]);
+
+            const yAxisScale = d3.scaleLinear()
+                .domain([start_min, max_data])
+                .range([innerheight, 0])
+
+            // define axis function
+            const xAxis = d3.axisBottom()
+                .scale(xAxisScale)
+                .tickFormat(d => {
+                    if (d >= 2017 && d <= 2020 && d % 1 == 0) {
+                        return formatter(d);
+                    }
+                });
+
+            const yAxis = d3.axisLeft()
+                .scale(yAxisScale)
+                .tickFormat(d => {
+                    if (min_data % 1 == 0 && max_data % 1 == 0) {
+                        if (d % 1 == 0 && d >= 0) return formatter(d);
+                    }
+                    return formatter(d);
+                });
+
+            // =========================axis configuration===========================
+            let axis_data = [
+                []
+            ];
+            svg.selectAll('g').remove();
+            let axisGroup = svg
+                .selectAll('g')
+                .data(axis_data)
+                .enter()
+
+            let xaxis = axisGroup.append('g')
+                .attr('class', 'axis')
+                .attr('transform', 'translate(' + margin.left + ',' + (margin.top + innerheight) + ')')
+                .call(xAxis);
+            xaxis.selectAll('text')
+                .style("font-size", "1.6em");
+
+            let yaxis = axisGroup.append('g')
+                .attr('class', 'axis')
+                .attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')')
+                .call(yAxis);
+            yaxis.selectAll('text')
+                .style("font-size", "1.4em");
+
+            axisGroup
+                .append('text')
+                .attr('y', innerheight + margin.top + 45)
+                .attr('x', innerwidth / 2)
+                .attr('fill', 'black')
+                .attr('dy', '-0.3em')
+                .style('font-size', '1.4em')
+                .text('Year');
+
+            svg
+                .append('text')
+                .attr('y', innerheight / 2)
+                .attr('x', 20)
+                .attr('fill', 'black')
+                .attr('dy', '-0.5em')
+                .style('font-size', '1.4em')
+                .style('writing-mode', 'tb-rl')
+                .text(cur_stat_name);
+
+            // ======================== add legends =========================
+            legend_svg.selectAll('g').remove();
+            let legend = legend_svg
+                .selectAll(".legend")
+                .data(tournament_list)
+                .enter()
+                .append("g")
+                .attr("class", "legend")
+                .attr("transform", function (d, i) {
+                    return "translate(" + 0 + "," + (i * 30 + 30) + ")";
+                });
+
+            // draw legend colored rectangles
+            legend.append("rect")
+                .data(tournament_list)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", 50)
+                .attr("height", 20)
+                .style("fill", function (d, i) {
+                    return color(i)
+                });
+
+            // draw legend text
+            legend.append("text")
+                .data(tournament_list)
+                .attr("class", "legend_text")
+                .attr("x", 60)
+                .attr("y", 10)
+                .attr("dy", ".2em")
+                .attr("fill", '#333333')
+                .style("font-size", "1.2em")
+                .style("text-anchor", "start")
+                .text(d => d);
+
+
+            // ===================== add rects and lines =================================
+            let index = 0
+            for (let tourna in data) {
+
+                const tourna_data = data[tourna]
+                const g = svg.append('g')
+                    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+                // ============================= add rects ====================================
+                let rects = g.selectAll('rect')
+                    .data(tourna_data)
+                    .enter()
+                    .append('rect')
+                    .attr('x', d => {
+                        return xAxisScale(d['year']) + dx[tourna_num][index]
+                    })
+                    .attr('y', yAxisScale(start_min))
+                    .attr('width', '30px')
+                    .attr('height', 0)
+
+                rects
+                    .transition()
+                    .duration(1000)
+                    .attr('y', d => yAxisScale(d['value']))
+                    .attr('height', d => {
+                        return innerheight - yAxisScale(d['value']);
+                    }) // use xSacle to re-scale data space (domain) and return the rescaled population; 
+                    .attr('fill', color(index))
+
+                // ======================== show tips on rects ==========================
+                rects
+                    .on('mouseover', function (d, i) {
+                        d3.select(this)
+                            .attr("opacity", 0.8)
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 1);
+                        stat_tip.show(d);
+                    })
+                    .on('mouseout', function (d) {
+                        d3.select(this)
+                            .attr("opacity", 1)
+                            .attr("stroke", null)
+                        stat_tip.hide(d);
+                    })
+
+
+                // ============================ add lines ========================================
+                let linePath = d3.line()
+                    .x(function (d) {
+                        return xAxisScale(d['year']) + dx[tourna_num][index] + 15
+                    })
+                    .y(function (d) {
+                        return yAxisScale(d['value'])
+                    });
+
+                let path = svg.append('g')
+                    .append('path')
+                    .attr('class', 'line-path')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+                    .attr('d', linePath(tourna_data))
+                    .attr('fill', 'none')
+                    .attr('stroke-width', 3)
+                    .attr('stroke', color(index));
+
+                let circles = svg.append('g')
+                    .selectAll('circle')
+                    .data(tourna_data)
+                    .enter()
+                    .append('circle')
+                    .attr('r', 5)
+                    .attr('transform', function (d) {
+                        let x = xAxisScale(d['year']) + dx[tourna_num][index] + 15;
+                        let y = yAxisScale(d['value']);
+                        return 'translate(' + (margin.left + x) + ',' + (margin.top + y) + ')'
+                    })
+                    .attr('fill', 'black');
+
+                index += 1;
+            }
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        d3.json('./data/player_stat_per_season/player_data.json').then(data => {
+            player_data = data;
+            let max_toruna = 0;
+            for (let name in player_data) {
+                player_name_list.push(name)
+                max_toruna = Math.max(max_toruna, Object.keys(player_data[name]).length)
+            }
+
+            //update player list
+            $('#player_list').empty();
+            str_list = ""
+            default_player = "Adam Lallana"
+            player_name_list.forEach((name, index) => {
+                if (name != default_player) {
+                    str_list += '<option value="' + name + '" id="player_' + name +
+                        '"><a href="">' + name + '</a></option>'
+                } else {
+                    str_list += '<option value="' + name + '" id="player_' + name +
+                        '" selected="selected"><a href="">' + name + '</a></option>'
+                }
+            });
+            $('#player_list').append(str_list);
+
+            //update stat list
+            $('#stat_list').empty();
+            str_list = ""
+            stat_name_list.forEach((name, index) => {
+                str_list += '<option value="' + name + '" id="stat_' + name +
+                    '"><a href="">' + name + '</a></option>'
+            })
+            $('#stat_list').append(str_list);
+
+            update_bar_chart();
+        });
+
+        d3.json('./data/player_stat_per_season/pie_data.json').then(data => {
+            pie_data = data;
+            update_pie_chart();
+        });
+    </script>
+
+</body>

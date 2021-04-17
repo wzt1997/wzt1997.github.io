@@ -1,0 +1,722 @@
+{
+    "#nodes": 52,
+    "#links": 55,
+    "links": [{
+        "source": 0,
+        "target": 2
+    }, {
+        "source": 0,
+        "target": 15
+    }, {
+        "source": 0,
+        "target": 16
+    }, {
+        "source": 0,
+        "target": 29
+    }, {
+        "source": 0,
+        "target": 39
+    }, {
+        "source": 1,
+        "target": 15
+    }, {
+        "source": 1,
+        "target": 26
+    }, {
+        "source": 1,
+        "target": 40
+    }, {
+        "source": 3,
+        "target": 22
+    }, {
+        "source": 3,
+        "target": 41
+    }, {
+        "source": 3,
+        "target": 42
+    }, {
+        "source": 4,
+        "target": 43
+    }, {
+        "source": 5,
+        "target": 11
+    }, {
+        "source": 5,
+        "target": 29
+    }, {
+        "source": 5,
+        "target": 44
+    }, {
+        "source": 6,
+        "target": 7
+    }, {
+        "source": 6,
+        "target": 26
+    }, {
+        "source": 7,
+        "target": 28
+    }, {
+        "source": 7,
+        "target": 32
+    }, {
+        "source": 8,
+        "target": 39
+    }, {
+        "source": 9,
+        "target": 45
+    }, {
+        "source": 10,
+        "target": 13
+    }, {
+        "source": 10,
+        "target": 16
+    }, {
+        "source": 11,
+        "target": 13
+    }, {
+        "source": 11,
+        "target": 43
+    }, {
+        "source": 11,
+        "target": 46
+    }, {
+        "source": 12,
+        "target": 47
+    }, {
+        "source": 13,
+        "target": 20
+    }, {
+        "source": 13,
+        "target": 48
+    }, {
+        "source": 14,
+        "target": 44
+    }, {
+        "source": 15,
+        "target": 17
+    }, {
+        "source": 15,
+        "target": 28
+    }, {
+        "source": 16,
+        "target": 21
+    }, {
+        "source": 16,
+        "target": 22
+    }, {
+        "source": 17,
+        "target": 28
+    }, {
+        "source": 18,
+        "target": 22
+    }, {
+        "source": 19,
+        "target": 49
+    }, {
+        "source": 20,
+        "target": 29
+    }, {
+        "source": 21,
+        "target": 36
+    }, {
+        "source": 22,
+        "target": 28
+    }, {
+        "source": 23,
+        "target": 24
+    }, {
+        "source": 23,
+        "target": 38
+    }, {
+        "source": 23,
+        "target": 42
+    }, {
+        "source": 25,
+        "target": 30
+    }, {
+        "source": 25,
+        "target": 50
+    }, {
+        "source": 26,
+        "target": 28
+    }, {
+        "source": 26,
+        "target": 31
+    }, {
+        "source": 27,
+        "target": 46
+    }, {
+        "source": 29,
+        "target": 49
+    }, {
+        "source": 33,
+        "target": 37
+    }, {
+        "source": 33,
+        "target": 41
+    }, {
+        "source": 34,
+        "target": 44
+    }, {
+        "source": 35,
+        "target": 48
+    }, {
+        "source": 35,
+        "target": 51
+    }, {
+        "source": 37,
+        "target": 42
+    }],
+    "link_weights": {
+        "0-2": 1,
+        "0-15": 1,
+        "0-16": 1,
+        "0-29": 1,
+        "0-39": 1,
+        "1-15": 1,
+        "1-26": 1,
+        "1-40": 1,
+        "3-22": 1,
+        "3-41": 1,
+        "3-42": 1,
+        "4-43": 1,
+        "5-11": 1,
+        "5-29": 1,
+        "5-44": 1,
+        "6-7": 1,
+        "6-26": 1,
+        "7-28": 1,
+        "7-32": 1,
+        "8-39": 1,
+        "9-45": 1,
+        "10-13": 1,
+        "10-16": 1,
+        "11-13": 1,
+        "11-43": 1,
+        "11-46": 1,
+        "12-47": 1,
+        "13-20": 1,
+        "13-48": 1,
+        "14-44": 1,
+        "15-17": 1,
+        "15-28": 1,
+        "16-21": 1,
+        "16-22": 1,
+        "17-28": 1,
+        "18-22": 1,
+        "19-49": 1,
+        "20-29": 1,
+        "21-36": 1,
+        "22-28": 1,
+        "23-24": 1,
+        "23-38": 1,
+        "23-42": 1,
+        "25-30": 1,
+        "25-50": 1,
+        "26-28": 1,
+        "26-31": 1,
+        "27-46": 1,
+        "29-49": 1,
+        "33-37": 1,
+        "33-41": 1,
+        "34-44": 1,
+        "35-48": 1,
+        "35-51": 1,
+        "37-42": 1
+    },
+    "node_list": ["AC Milan", "ACF Fiorentina", "AFC Bournemouth", "AS Monaco", "Atalanta BC", "CD Legan\u00e9s", "Cagliari Calcio", "Celta de Vigo", "Chelsea FC", "Everton FC", "FC Augsburg", "FC Barcelona", "FC Girondins Bordeaux", "FC Schalke 04", "Getafe CF", "Hellas Verona", "Hertha BSC", "Inter Milan", "Manchester City", "Newcastle United", "Norwich City", "Olympique Lyon", "RB Leipzig", "Real Madrid", "Real Valladolid CF", "SCO Angers", "SPAL", "SS Lazio", "SSC Napoli", "Sevilla FC", "Stade Rennais FC", "Torino FC", "UC Sampdoria", "Udinese Calcio", "Valencia CF", "VfL Wolfsburg", "Villarreal CF", "Watford FC", "Wolverhampton Wanderers", "Aston Villa", "SD Eibar", "Amiens SC", "Granada CF", "AS Roma", "CA Osasuna", "Crystal Palace", "OGC Nice", "N\u00eemes Olympique", "1. FC K\u00f6ln", "RCD Mallorca", "FC Metz", "1.FSV Mainz 05"],
+    "node_size": [5, 3, 1, 3, 1, 3, 2, 3, 1, 1, 2, 4, 1, 4, 1, 4, 4, 2, 1, 1, 2, 2, 4, 3, 1, 2, 4, 1, 5, 4, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 3, 1, 2, 1, 2, 2, 1, 1],
+    "pie_list": [{
+        "0": {
+            "x": "AFC Bournemouth",
+            "y": 1
+        },
+        "1": {
+            "x": "Hellas Verona",
+            "y": 1
+        },
+        "2": {
+            "x": "Hertha BSC",
+            "y": 1
+        },
+        "3": {
+            "x": "Sevilla FC",
+            "y": 1
+        },
+        "4": {
+            "x": "Aston Villa",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Hellas Verona",
+            "y": 1
+        },
+        "1": {
+            "x": "SPAL",
+            "y": 1
+        },
+        "2": {
+            "x": "SD Eibar",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AC Milan",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "RB Leipzig",
+            "y": 1
+        },
+        "1": {
+            "x": "Amiens SC",
+            "y": 1
+        },
+        "2": {
+            "x": "Granada CF",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AS Roma",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "FC Barcelona",
+            "y": 1
+        },
+        "1": {
+            "x": "Sevilla FC",
+            "y": 1
+        },
+        "2": {
+            "x": "CA Osasuna",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Celta de Vigo",
+            "y": 1
+        },
+        "1": {
+            "x": "SPAL",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Cagliari Calcio",
+            "y": 1
+        },
+        "1": {
+            "x": "SSC Napoli",
+            "y": 1
+        },
+        "2": {
+            "x": "UC Sampdoria",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Aston Villa",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Crystal Palace",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "FC Schalke 04",
+            "y": 1
+        },
+        "1": {
+            "x": "Hertha BSC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "CD Legan\u00e9s",
+            "y": 1
+        },
+        "1": {
+            "x": "FC Schalke 04",
+            "y": 1
+        },
+        "2": {
+            "x": "AS Roma",
+            "y": 1
+        },
+        "3": {
+            "x": "OGC Nice",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "N\u00eemes Olympique",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "FC Augsburg",
+            "y": 1
+        },
+        "1": {
+            "x": "FC Barcelona",
+            "y": 1
+        },
+        "2": {
+            "x": "Norwich City",
+            "y": 1
+        },
+        "3": {
+            "x": "1. FC K\u00f6ln",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "CA Osasuna",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AC Milan",
+            "y": 1
+        },
+        "1": {
+            "x": "ACF Fiorentina",
+            "y": 1
+        },
+        "2": {
+            "x": "Inter Milan",
+            "y": 1
+        },
+        "3": {
+            "x": "SSC Napoli",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AC Milan",
+            "y": 1
+        },
+        "1": {
+            "x": "FC Augsburg",
+            "y": 1
+        },
+        "2": {
+            "x": "Olympique Lyon",
+            "y": 1
+        },
+        "3": {
+            "x": "RB Leipzig",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Hellas Verona",
+            "y": 1
+        },
+        "1": {
+            "x": "SSC Napoli",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "RB Leipzig",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "RCD Mallorca",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "FC Schalke 04",
+            "y": 1
+        },
+        "1": {
+            "x": "Sevilla FC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Hertha BSC",
+            "y": 1
+        },
+        "1": {
+            "x": "Villarreal CF",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AS Monaco",
+            "y": 1
+        },
+        "1": {
+            "x": "Hertha BSC",
+            "y": 1
+        },
+        "2": {
+            "x": "Manchester City",
+            "y": 1
+        },
+        "3": {
+            "x": "SSC Napoli",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Real Valladolid CF",
+            "y": 1
+        },
+        "1": {
+            "x": "Wolverhampton Wanderers",
+            "y": 1
+        },
+        "2": {
+            "x": "Granada CF",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Real Madrid",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Stade Rennais FC",
+            "y": 1
+        },
+        "1": {
+            "x": "FC Metz",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "ACF Fiorentina",
+            "y": 1
+        },
+        "1": {
+            "x": "Cagliari Calcio",
+            "y": 1
+        },
+        "2": {
+            "x": "SSC Napoli",
+            "y": 1
+        },
+        "3": {
+            "x": "Torino FC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "OGC Nice",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Celta de Vigo",
+            "y": 1
+        },
+        "1": {
+            "x": "Hellas Verona",
+            "y": 1
+        },
+        "2": {
+            "x": "Inter Milan",
+            "y": 1
+        },
+        "3": {
+            "x": "RB Leipzig",
+            "y": 1
+        },
+        "4": {
+            "x": "SPAL",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AC Milan",
+            "y": 1
+        },
+        "1": {
+            "x": "CD Legan\u00e9s",
+            "y": 1
+        },
+        "2": {
+            "x": "Norwich City",
+            "y": 1
+        },
+        "3": {
+            "x": "RCD Mallorca",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "SCO Angers",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "SPAL",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Celta de Vigo",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Watford FC",
+            "y": 1
+        },
+        "1": {
+            "x": "Amiens SC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "CA Osasuna",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "1. FC K\u00f6ln",
+            "y": 1
+        },
+        "1": {
+            "x": "1.FSV Mainz 05",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Olympique Lyon",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Udinese Calcio",
+            "y": 1
+        },
+        "1": {
+            "x": "Granada CF",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Real Madrid",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AC Milan",
+            "y": 1
+        },
+        "1": {
+            "x": "Chelsea FC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "ACF Fiorentina",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AS Monaco",
+            "y": 1
+        },
+        "1": {
+            "x": "Udinese Calcio",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "AS Monaco",
+            "y": 1
+        },
+        "1": {
+            "x": "Real Madrid",
+            "y": 1
+        },
+        "2": {
+            "x": "Watford FC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Atalanta BC",
+            "y": 1
+        },
+        "1": {
+            "x": "FC Barcelona",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "CD Legan\u00e9s",
+            "y": 1
+        },
+        "1": {
+            "x": "Getafe CF",
+            "y": 1
+        },
+        "2": {
+            "x": "Valencia CF",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Everton FC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "FC Barcelona",
+            "y": 1
+        },
+        "1": {
+            "x": "SS Lazio",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "FC Girondins Bordeaux",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "FC Schalke 04",
+            "y": 1
+        },
+        "1": {
+            "x": "VfL Wolfsburg",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "Newcastle United",
+            "y": 1
+        },
+        "1": {
+            "x": "Sevilla FC",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "SCO Angers",
+            "y": 1
+        }
+    }, {
+        "0": {
+            "x": "VfL Wolfsburg",
+            "y": 1
+        }
+    }]
+}
