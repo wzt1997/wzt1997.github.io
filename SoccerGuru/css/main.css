@@ -1,4 +1,4 @@
-body,
+/* body,
 h1,
 h2,
 h3,
@@ -6,7 +6,7 @@ h4,
 h5,
 h6 {
     font-family: "Lato", sans-serif;
-}
+} */
 
 h1,
 h2,
@@ -103,10 +103,17 @@ table {
 
 body {
 
-    font-family: monospace;
+    /* font-family: monospace; */
     padding: 10px;
     color: black;
+    font-size: 1.1em;
 
+}
+
+#coverTitle {
+    font-family:'Georgia';
+    font-size: 3em;
+    word-spacing:5px;
 }
 
 #page_bg {
@@ -261,4 +268,3 @@ div {
     background-color: #4CAF50;
     color: white;
   }
-  
