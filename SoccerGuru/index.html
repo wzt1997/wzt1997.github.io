@@ -338,152 +338,45 @@
 
 
     <br />
-    <!-- SECTION DESIGN -->
-    <!-- <div class="w3-content w3-container w3-padding-64" id="design" style="padding-top: 10px!important">
-        <h2 class="w3-center">Design Choices</h2>
-        <p>We first had to analyze and transform the data. It quickly became clear that the quality of the data left a
-            lot to be desired.
-            With the cleansed data, we first looked at how we could achieve our design goals described above.</p>
-        <br />
-
-        <h3>Choosing the right visualization</h3>
-        <p>We made different sketches and realized that the most understandable and clear presentation was a map that
-            assigned different colors to countries given specific data ranges. Nevertheless, we had to keep in mind that
-            there
-            is only a certain number of colours that can be easily distinguished. Therefore, as soon as you move a mouse
-            over the countries, they get a contour that indicates the exact size of the country. In addition, we decided
-            to use a tooltip which, for example, shows the exact average rating of the players in a country.</p>
-        <br />
-
-        <h3>Foundations Visual Design</h3>
-        <p>Our initial goal was to visualise a quick overview of the FIFA player ratings for each country. Kagle's data
-            set gave us information about the individual players and their origins. With this information we could
-            concentrate ourselves on giving simple and quick information on which countries offer better players
-            (alongside other possible criterias) rather than overflow the visualization with additional data.</p>
-        <br />
-
-        <h3>Fundamental Principals of Analytical Design </h3>
-        <p>Our visualization is dividede into two parts: One for the purposes of brushing the data, the other for the
-            actual visualization and fast adjustment of a given criteria. The dimensions implemented require the
-            following:</p>
-        <ul>
-            <li>
-                Longitude & latitude to draw each individual country
-            </li>
-            <li>
-                Color ratio to display differences in selected value
-            </li>
-            <li>
-                Tooltip to allow for detail on demand & "Integration of Evidence"
-            </li>
-        </ul>
-
-        <p>We have implemented several brushing & filter criterias. Without any settings done, the first overview will
-            be the overal mean player rating. The color scale ranges from white (no data available) to a dark orange
-            (darker = higher average). The color gradient is based on the data selected for display, which can be set
-            just above the map itself. We set 8 different steps in this gradient since we thought that this offered the
-            best deal out of seeing to little to too much differences.</p>
-        <br />
-
-        <h3>Data-Ink Ratio</h3>
-        <p>To maximize the efficiency of our visualization, we took good care of how big our visualizations are, how
-            much space each individual information needs (e.g. our tooltip) and how much data is really needed. </p>
-        <p>“A large share of ink on a graphic should present data-information, the ink changing as the data change.
-            Data-ink is the non-erasable core of a graphic, the non-redundant ink arranged in response to variation in
-            the numbers represented.” Tufte, 1983</p>
-        <p>When we designed our map we held the data-ink ratio as high as possible.</p>
-        <br />
-
-        <h3>Human Perception</h3>
-        <p>Whilst programming this website, we laid a big importance on the flow whilst reading and scrolling through
-            the page. To enhance the engagement and visual attractiveness we settled for a "cool" website template,
-            which suited our topic. </p>
-        <p>Starting with a top navigation bar, clear instructions and informations about our data, and then followed by
-            our visualization, we found a good approach on how the user is being guided through our project.The
-            transition of actions is natural, causal and hierarchical.The visual changes, when filters are applied,
-            further increase the interactivity.</p>
-        <br />
-
-        <h3>Interaction Concept</h3>
-        <p>Our visualizations consist of brushing and filtering. As soon as the desired filters are being selected and
-            the "Calculate" button is clicked, the data will be usable for further brushing. Once a country gets hovered
-            over (brushing), the country gets highlighted and a tooltip appears with more information. As soon as the
-            visitor changes the mouse position to another country, the tooltip and highlighting changes to the given
-            country.</p>
-
-    </div> -->
-
-    <!-- SECTION SKETCH -->
-    <!-- <div class="w3-content w3-container w3-padding-64" id="sketch" style="padding-top: 10px!important">
-        <h2 class="w3-center">Sketches and future ideas</h2>
-        <p>When we transformed the data, we had different ideas about how best to visualize the data.
-            For a better understanding we have integrated some of these sketches into our website.</p>
-        <div>
-            <img src="Sketch_Spider_Chart.png" style="width: 35%;display: inline;padding-top: 30px;">
-            <img src="Sketch_Skills.png" style="width: 30%;display: inline;padding-top: 30px;">
-            <img src="Sketch_Violin.png" style="width: 30%;display: inline;padding-top: 30px;">
-        </div>
-        <p>Due to the given time limit of this module, we didn't have the chance to visualize all of our conceptual
-            work. However there are some neat implementations possible, as soon as a country is selected. Alternatively,
-            we could have used more dimensions from the dataset provided to develop visualizations for indivual player
-            or country averages based on certain skills, as shown above.</p>
-        <div>
-            <img src="Sketch_Field.png" style="width: 45%;display: inline;padding-top: 30px;">
-            <img src="Sketch_Comparison.png" style="width: 45%;display: inline;padding-top: 30px;">
-        </div>
-    </div> -->
 
     <!-- SECTION DESIGN -->
     <div class="w3-content w3-container w3-padding-64" id="ref" style="padding-top: 10px!important">
         <h2 class="w3-center">References</h2>
         <p>To develop our d3 visualization we used different sources to build our knowledge:</p>
         <u>
-            <li>https://www.tutorialsteacher.com/d3js</li>
-            <li>https://www.d3-graph-gallery.com/index.html</li>
+            <li>https://echarts.apache.org/en/feature.html</li>
+            <li>https://d3js.org/</li>
 
         </u>
-        <p>The general template of our website was contributed by Anja Zimmermann on <a
-                href="https://elearning.hslu.ch/ilias/ilias.php?ref_id=4171650&cmdClass=ilobjforumgui&thr_pk=30855&cmd=viewThread&cmdNode=xu:ok&baseClass=ilrepositorygui">Ilias</a>.
+        <p>The general template of our website was contributed by Iabecker on <a
+                href="https://github.com/becker-max/DAVI_2,2020-12-11">Github</a>.
         </p>
-        <p>As stated before, our dataset was retrieved from Kagle: <a
-                href="https://www.kaggle.com/karangadiya/fifa19">Link to dataset</a></p>
-        <p>We worked in close collaboration with the group of Maximilian Becker & Philippe Schwarzer - Some similarities
-            might be discoverable :-)</p>
+        <p>Our dataset was retrieved from : 
+            <ul>
+                <li>
+                    <span><b><a href="https://www.kaggle.com/bryanb/fifa-player-stats-database">FIFA17 to FIFA21
+                                statistics for each football player</a></b></span>
+                </li>
+                <li>
+                    <span><b> <a href="https://github.com/ewenme/transfers">European football player
+                                transfers</a></b></span>
+                </li>
+                <li>
+                    <span><b> <a
+                                href="https://www.kaggle.com/sarangpurandare/83k-football-players-103-stats-per-season">
+                                Players stats per
+                                season</a></b></span>
+                </li>
+                <li>
+                    <span><b> <a
+                                href="https://www.jokecamp.com/blog/guide-to-football-and-soccer-data-and-apis/">
+                                Guide to Football</a></b></span>
+                </li>
+            </ul>
+        </p>
+        <p>We worked in close collaboration with Prof. Bimlesh Wadhwa and the Teaching Assistants. Thanks for all the help you have provided! :-)</p>
 
     </div>
-
-    <!-- SECTION REFLECTION -->
-    <!-- <div class="w3-content w3-container w3-padding-64" id="reflection" style="padding-top: 10px!important">
-        <h2 class="w3-center">Reflection</h2>
-        <h4>What did we learn?</h4>
-        <ul>
-            <li>
-                How to search for an appropriat dataset & how important a clean data baseline is.
-            </li>
-            <li>
-                How to develop visualisations with d3 from the start to the implementation.
-            </li>
-            <li>
-                What the limits are and how time limits constrain our designing process.
-            </li>
-        </ul>
-        <h4>What would we do better next time?</h4>
-        <ul>
-            <li>
-                Focus on one or two visualisations rather than thinking in many approaches.
-            </li>
-            <li>
-                Create a working prototype faster to further develop ideas.
-            </li>
-            <li>
-                Spend more time learning the d3 library, since some of our approaches could have been developed way
-                easier.
-            </li>
-        </ul>
-        <p>All in all, we learned a lot throughout the projects duration. Both of has have never used d3 before and we
-            were inspired, since we didn't know that creating graphs using only JS, HTML & CSS would be that simple,
-            given the time constraint.</p>
-    </div> -->
 
     <!-- SECTION Team -->
     <div class="w3-content w3-container w3-padding-64" id="team" style="padding-top: 10px!important">
