@@ -29,6 +29,7 @@ html {
 /* Create a Parallax Effect */
 .bgimg-1,
 .bgimg-2,
+.bgimg-3,
 .navbarbg {
     background-attachment: fixed;
     background-position: center;
@@ -44,7 +45,16 @@ html {
 
 /* Second image (Portfolio) */
 .bgimg-2 {
-    background-image: url("https://7images.cgames.de/images/gsgp/226/fifa-19-modric-stats_6055306.jpg");
+    /* background-image: url("https://7images.cgames.de/images/gsgp/226/fifa-19-modric-stats_6055306.jpg"); */
+    background-image: url("https://z3.ax1x.com/2021/04/18/cI9hef.jpg");
+    filter: grayscale(20%) brightness(.9);
+
+    min-height: 400px;
+}
+
+/* Second image (Portfolio) */
+.bgimg-3 {
+    background-image: url("https://z3.ax1x.com/2021/04/18/cI9gSA.jpg");
     filter: grayscale(20%) brightness(.9);
 
     min-height: 400px;
@@ -69,6 +79,7 @@ html {
 
     .bgimg-1,
     .bgimg-2,
+    .bgimg-3,
     .bgimg-3 {
         background-attachment: scroll;
         min-height: 400px;
@@ -112,7 +123,7 @@ body {
 
 #coverTitle {
     font-family:'Georgia';
-    font-size: 30px;
+    font-size: 40px;
     word-spacing:5px;
 }
 

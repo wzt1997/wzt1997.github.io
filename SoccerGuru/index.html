@@ -29,10 +29,7 @@
             <a href="#info" class="w3-bar-item w3-button">Project Info</a>
             <a href="#data" class="w3-bar-item w3-button">Datasets</a>
             <a href="#viz" class="w3-bar-item w3-button">Visualization</a>
-            <a href="#design" class="w3-bar-item w3-button">Design Choices</a>
-            <a href="#sketch" class="w3-bar-item w3-button">Sketches</a>
             <a href="#ref" class="w3-bar-item w3-button">References</a>
-            <a href="#reflection" class="w3-bar-item w3-button">Reflection</a>
             <a href="#team" class="w3-bar-item w3-button">Team</a>
         </div>
     </div>
@@ -87,14 +84,14 @@
                 <span><b>Soccer Fans</b></span>
                 <p>
                     SoccerGuru will be a perfect tool for football fans to understand the statistics in a more
-                    interactive manner to acquire a deeper insight into it
+                    interactive manner to acquire a deeper insight into it.
                 </p>
             </li>
             <li>
                 <span><b>Soccer Media Journalists</b></span>
                 <p>
                     Will Arsenal be the team to beat this season? Who will be the Golden Ball of the year?
-                    Try and use SoccerGuru and he will show you the answer
+                    Try and use SoccerGuru and he will show you the answer.
                 </p>
             </li>
             <li>
@@ -155,7 +152,7 @@
     </div>
 
     <!-- THIRD BG IMAGE BETWEEN INTRODUCTION & VISUALIZATION -->
-    <div class="bgimg-2 w3-display-container w3-opacity-min">
+    <div class="bgimg-3 w3-display-container w3-opacity-min">
         <div class="w3-display-middle" style="background-color: white;width:40%;height: 50%;opacity: 60%">
         </div>
         <div class="w3-display-middle" style="white-space:nowrap;">
@@ -171,7 +168,7 @@
     <div class="w3-content w3-container" id="viz" style="padding-bottom: 0">
         <h2>Visualization</h2>
 
-        <h3 class="w3-center">Player Personal Ability Display</h3>
+        <h3 class="w3-center">Player Personal Ability Visualization</h3>
         <div>
             <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
                 <p>
@@ -199,13 +196,13 @@
                 <div style="width:auto;">
                     <img src='https://z3.ax1x.com/2021/04/17/c4NOIS.png' style="max-width: 100%; max-height: 100%;">
                 </div>
-                <a href="player_stats.html"><button class="button button1">Try it
+                <a href="https://wzt1997.github.io/SoccerGuru/player_stats"><button class="button button1">Try it
                     yourself</button></a>
 
         </div>
         </br>
 
-        <h3 class="w3-center">Player and Team Statistics Display</h3>
+        <h3 class="w3-center">Player and Team Statistics Visualization</h3>
         <div>
             <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
                 <p>
@@ -237,15 +234,12 @@
                     <img src='https://z3.ax1x.com/2021/04/17/c4UUsI.png' style="max-width: 100%; max-height: 100%;">
                 </div>
 
-                <a href="player_stat_per_season.html"><button class="button button1">Try it
+                <a href="https://wzt1997.github.io/SoccerGuru/player_stat_per_season"><button class="button button1">Try it
                     yourself</button></a>
         </div>
         </br>
 
-        <h3 class="w3-center">Player Comparison</h3>
-        </br>
-
-        <h3 class="w3-center">Transfer Statistics Display</h3>
+        <h3 class="w3-center">Transfer Visualization in Network</h3>
         <div>
             <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
                 <p>
@@ -258,19 +252,94 @@
                     <img src='https://z3.ax1x.com/2021/04/17/c5row9.png' style="max-width: 100%; max-height: 100%;">
                 </div>
 
-                <a href="transfer_network.html"><button class="button button1">Try it
+                <a href="https://wzt1997.github.io/SoccerGuru/transfer_network"><button class="button button1">Try it
                     yourself</button></a>
         </div>
         </br>
 
-        <h3 class="w3-center">Relationship between Players and Teams</h3>
+        <h3 class="w3-center">Player Value Comparison</h3>
+        <div>
+            <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
+                <p>
+                    Chasing bar diagrams are adopted to demonstrate the value of the players, on the basis of their transfer fee. 
+                    Each bar in the diagram represents the transfer fee of the player and the diagram shows the top 10 most valuable players in the year. 
+                    The data is provided by the dataset 'European football player transfers' dataset. 
+                    This visualization is implemented by D3.js and can be divided for mainly two parts:
+                    <ul>
+                        <li>The Chasing Bar: The bar chart is designed to show the top 10 most valuable players each year. 
+                            Through animation, the diagram is updated at the annual rate. 
+                            Each bar in the diagram represents one player and on the right of the bar, the total transfer fee will be demonstrated.
+                        </li>
+                        <li>The Line Chart: The line chart is designed to show the trend of the changes of the player through his career. 
+                            The interactivity here is that when we click on the label or the bar of the player in the bar chart, the line chart will demonstrate the trend of the changes of past transfer fee from 1993 to 2020.
+                        </li>
+                    </ul>
+
+                </p>
+                <div style="width:auto;">
+                    <img src='https://ftp.bmp.ovh/imgs/2021/04/c6327c838cd09281.png' style="max-width: 100%; max-height: 100%;">
+                </div>
+
+                <a href="https://logan1004.github.io/CS5346/FinalProject/code/Chasing%20Bar%20Diagram/barchase.html"><button class="button button1">Try it
+                    yourself</button></a>
+        </div>
+        </br>
+
+        <h3 class="w3-center">Team Transfer Demonstration</h3>
+        <div>
+            <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
+                <p>
+                    Sankey Diagram is adopted to demonstrate the transfer history between different teams in the selected year. 
+                    A Sankey Diagram is a visualisation technique that allows to display flows. 
+                    Several entities (nodes) are represented by rectangles or text. 
+                    Their links are represented with arrows or arcs that have a width proportional to the importance of the flow. 
+                    The data is provided by the dataset 'European football player transfers' dataset. 
+                    This visualization is implemented by D3.js and can be divided for mainly two parts:
+                    <ul>
+                        <li>The Filter: there are two filters in the sankey diagram, the first one is to choose the team to demonstrate the transfer information and the second one is to select the year.
+                        </li>
+                        <li>The Sankey Map: The sankey map is designed for the transfer history between different teams in the selected year. The entity in the left part of the map is the selected team and in the right part, there exists several teams that have transactions with the selected team in the selected year. The interactivity here is that when we hover on the line of the sankey map, it will show the exact number of the transfer players at that year.
+                        </li>
+                    </ul>
+
+                </p>
+                <div style="width:auto;">
+                    <img src='https://ftp.bmp.ovh/imgs/2021/04/9b198a193d0af827.jpg' style="max-width: 100%; max-height: 100%;">
+                </div>
+
+                <a href="https://logan1004.github.io/CS5346/FinalProject/code/Sankey%20Diagram/index.html"><button class="button button1">Try it
+                    yourself</button></a>
+        </div>
+        </br>
+
+        <h3 class="w3-center">Player Transfer History</h3>
+        <div>
+            <p><span style="font-size: 20px;"><b>Inroduction:</b></span>
+                <p>
+                    Transfer History Map is adopted to demonstrate the transfer history of the selected player in his career. Each point on the map represents the location of a club and the link between them represents that the player has been transferred from the source club to the target one. The data is provided by the dataset 'European football player transfers' and ' Stadiums with GPS coordinates'. This visualization is implemented by echarts.js and can be divided for mainly two parts:
+                    <ul>
+                        <li>The Filter: the filter in the Transfer History Map is to choose the player to demonstrate the transfer history over the years. 
+                        </li>
+                        <li>The Transfer History Map: The transfer history map is designed for the  transfer history of the selected player between different teams in his career. After we select the player in the filter, the map will show all the relevant clubs and connect them based on the transfer history. The animation demonstrates the transaction direction between the two clubs. 
+                        </li>
+                    </ul>
+
+                </p>
+                <div style="width:auto;">
+                    <img src='https://ftp.bmp.ovh/imgs/2021/04/01183ba3c341ad72.png' style="max-width: 100%; max-height: 100%;">
+                </div>
+
+                <a href="https://logan1004.github.io/CS5346/FinalProject/code/PlayerTransfer/playertransfer.html"><button class="button button1">Try it
+                    yourself</button></a>
+        </div>
         </br>
 
     </div>
 
+
     <br />
     <!-- SECTION DESIGN -->
-    <div class="w3-content w3-container w3-padding-64" id="design" style="padding-top: 10px!important">
+    <!-- <div class="w3-content w3-container w3-padding-64" id="design" style="padding-top: 10px!important">
         <h2 class="w3-center">Design Choices</h2>
         <p>We first had to analyze and transform the data. It quickly became clear that the quality of the data left a
             lot to be desired.
@@ -342,10 +411,10 @@
             visitor changes the mouse position to another country, the tooltip and highlighting changes to the given
             country.</p>
 
-    </div>
+    </div> -->
 
     <!-- SECTION SKETCH -->
-    <div class="w3-content w3-container w3-padding-64" id="sketch" style="padding-top: 10px!important">
+    <!-- <div class="w3-content w3-container w3-padding-64" id="sketch" style="padding-top: 10px!important">
         <h2 class="w3-center">Sketches and future ideas</h2>
         <p>When we transformed the data, we had different ideas about how best to visualize the data.
             For a better understanding we have integrated some of these sketches into our website.</p>
@@ -362,7 +431,7 @@
             <img src="Sketch_Field.png" style="width: 45%;display: inline;padding-top: 30px;">
             <img src="Sketch_Comparison.png" style="width: 45%;display: inline;padding-top: 30px;">
         </div>
-    </div>
+    </div> -->
 
     <!-- SECTION DESIGN -->
     <div class="w3-content w3-container w3-padding-64" id="ref" style="padding-top: 10px!important">
@@ -384,7 +453,7 @@
     </div>
 
     <!-- SECTION REFLECTION -->
-    <div class="w3-content w3-container w3-padding-64" id="reflection" style="padding-top: 10px!important">
+    <!-- <div class="w3-content w3-container w3-padding-64" id="reflection" style="padding-top: 10px!important">
         <h2 class="w3-center">Reflection</h2>
         <h4>What did we learn?</h4>
         <ul>
@@ -414,7 +483,7 @@
         <p>All in all, we learned a lot throughout the projects duration. Both of has have never used d3 before and we
             were inspired, since we didn't know that creating graphs using only JS, HTML & CSS would be that simple,
             given the time constraint.</p>
-    </div>
+    </div> -->
 
     <!-- SECTION Team -->
     <div class="w3-content w3-container w3-padding-64" id="team" style="padding-top: 10px!important">
